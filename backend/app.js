@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 // routes
-app.use('/api/user', userRouter);
+app.use('/api/users', userRouter);
 
 // config custom error handler
 app.use(errorHandler);

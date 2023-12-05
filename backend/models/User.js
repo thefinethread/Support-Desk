@@ -12,10 +12,12 @@ const userSchema = new Schema({
     required: [true, 'Email is required'],
     unique: true,
     trim: true,
+    lowercase: true,
   },
   password: {
     type: String,
     required: [true, 'Password is required'],
+    select: false,
   },
   isAdmin: {
     type: Boolean,
@@ -25,14 +27,15 @@ const userSchema = new Schema({
 
 // hash password
 userSchema.pre('save', async function () {
-  if (userSchema.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
   }
 });
 
 // validate password
 userSchema.methods.validatePassword = async function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
 export const User = mongoose.model('User', userSchema);
