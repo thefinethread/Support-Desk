@@ -1,5 +1,5 @@
 export const errorHandler = (err, req, res, next) => {
-  let statusCode = req.statusCode === 200 ? 500 : res.statusCode;
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
 
   // check for mongo cast error
