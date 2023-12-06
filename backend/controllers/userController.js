@@ -69,7 +69,7 @@ const login = asyncHandler(async (req, res) => {
 });
 
 // get current logged in user details
-const getMe = asyncHandler((req, res) => {
+const getMe = (req, res) => {
   const user = {
     _id: req.user._id,
     name: req.user.name,
@@ -77,6 +77,12 @@ const getMe = asyncHandler((req, res) => {
   };
 
   res.status(200).json(user);
-});
+};
 
-export { register, login, getMe };
+// Log out
+const logOut = (req, res) => {
+  res.clearCookie('RememberMe');
+  res.end();
+};
+
+export { register, login, getMe, logOut };
