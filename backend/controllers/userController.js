@@ -3,6 +3,7 @@ import { responseMessage } from '../utils/responseMessage.js';
 import { User } from '../models/User.js';
 import { generateToken } from '../utils/generateToken.js';
 
+// register new user
 const register = asyncHandler(async (req, res) => {
   const { name, email, password, isAdmin } = req.body;
 
@@ -39,4 +40,32 @@ const register = asyncHandler(async (req, res) => {
   );
 });
 
-export { register };
+// login in
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // basic validation
+  if (!email || !password) {
+    res.status(400);
+    throw new Error('Invalid credentials');
+  }
+
+  const user = await User.findOne({ email }).select('-createdAt -updatedAt');
+
+  if (user && (await user.validatePassword(password))) {
+    generateToken(res, user);
+
+    res.status(200).json(
+      responseMessage('Logged in successfully', {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      })
+    );
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+});
+
+export { register, login };
