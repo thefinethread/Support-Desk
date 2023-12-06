@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import { responseMessage } from '../utils/responseMessage.js';
 import { User } from '../models/User.js';
+import { generateToken } from '../utils/generateToken.js';
 
 const register = asyncHandler(async (req, res) => {
   const { name, email, password, isAdmin } = req.body;
@@ -24,6 +25,9 @@ const register = asyncHandler(async (req, res) => {
     res.status(500);
     throw new Error('Error occurred while creating user');
   }
+
+  // generate token and set in cookie
+  generateToken(res, user);
 
   res.status(201).json(
     responseMessage('user created', {
