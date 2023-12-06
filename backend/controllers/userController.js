@@ -68,4 +68,15 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
-export { register, login };
+// get current logged in user details
+const getMe = asyncHandler((req, res) => {
+  const user = {
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+
+  res.status(200).json(user);
+});
+
+export { register, login, getMe };
