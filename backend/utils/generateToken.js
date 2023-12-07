@@ -10,8 +10,8 @@ const generateToken = (res, user) => {
   );
 
   res.cookie('RememberMe', token, {
-    maxAge: 1 * 60 * 60 * 1000,
-    httpOnly: true,
+    maxAge: 1 * 60 * 60 * 1000, // 1 day
+    httpOnly: true, // so that we can't access cookie from client side
     secure: process.env.NODE_ENV === 'production',
   });
 };

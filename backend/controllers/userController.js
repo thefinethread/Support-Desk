@@ -3,7 +3,11 @@ import { responseMessage } from '../utils/responseMessage.js';
 import { User } from '../models/User.js';
 import { generateToken } from '../utils/generateToken.js';
 
-// register new user
+/*  
+    @Desc - register new user
+    @api - api/users/register
+    @Public
+*/
 const register = asyncHandler(async (req, res) => {
   const { name, email, password, isAdmin } = req.body;
 
@@ -40,7 +44,11 @@ const register = asyncHandler(async (req, res) => {
   );
 });
 
-// login in
+/*  
+    @Desc - Login
+    @api - api/users/login
+    @Public
+*/
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -68,7 +76,11 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
-// get current logged in user details
+/*  
+    @Desc - get current logged in user details
+    @api - api/users/getMe
+    @Private
+*/
 const getMe = (req, res) => {
   const user = {
     _id: req.user._id,
@@ -79,10 +91,14 @@ const getMe = (req, res) => {
   res.status(200).json(user);
 };
 
-// Log out
+/*  
+    @Desc - logout the user
+    @api - api/users/logout
+    @Private
+*/
 const logOut = (req, res) => {
   res.clearCookie('RememberMe');
-  res.end();
+  res.status(200).json(responseMessage('logged out successfully'));
 };
 
 export { register, login, getMe, logOut };
