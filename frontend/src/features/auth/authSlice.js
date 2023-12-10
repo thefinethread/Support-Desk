@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { register } from './authThunk';
 
 const initialState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   loading: false,
   hasError: false,
   success: false,
@@ -13,7 +13,16 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.loading = false;
+      state.user = null;
+      state.message = '';
+      state.success = false;
+      state.error = null;
+      state.hasError = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
@@ -33,4 +42,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;

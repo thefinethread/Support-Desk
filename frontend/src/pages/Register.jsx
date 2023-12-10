@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RiUserAddLine } from 'react-icons/ri';
 import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../features/auth/authThunk';
@@ -6,8 +7,12 @@ import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
+import Spinner from '../components/common/Spinner';
+import { reset } from '../features/auth/authSlice';
 
 const Register = () => {
+  const [hasFieldsError, setHasFieldsError] = useState(true);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +22,12 @@ const Register = () => {
 
   const { name, email, password, password2 } = formData;
 
+  const { user, loading, success, message, hasError } = useSelector(
+    (state) => state.auth
+  );
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const registerInputs = [
     {
@@ -50,11 +60,37 @@ const Register = () => {
     },
   ];
 
+  useEffect(() => {
+    if (user || success) {
+      toast.success(message);
+      navigate('/');
+    }
+
+    if (hasError) {
+      toast.error(message);
+    }
+
+    dispatch(reset());
+  }, [user, success, hasError, message, dispatch, navigate]);
+
+  useEffect(() => {
+    // enable/disable submit button
+    const allFieldsFilled = [...Object.values(formData)].every((field) =>
+      field.trim()
+    );
+    setHasFieldsError(!allFieldsFilled);
+  }, [formData]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if ([...Object.values(formData)].some((field) => !field)) {
+      toast.warn('Please fill in all the fields');
+      return;
+    }
+
     if (password !== password2) {
-      toast.warn('passwords do not match');
+      toast.warn('Passwords do not match');
       return;
     }
 
@@ -69,7 +105,7 @@ const Register = () => {
   };
 
   return (
-    <main className="flex-1 flex flex-col justify-center">
+    <main className="flex-1 z-10 flex flex-col justify-center">
       <Container>
         <div className="h-full text-center max-w-md m-auto py-8">
           <header className="mb-10">
@@ -88,7 +124,13 @@ const Register = () => {
                   <Input onChange={handleChange} {...input} />
                 </div>
               ))}
-              <Button type="submit">Submit</Button>
+              <Button
+                type="submit"
+                className={'flex justify-center items-center'}
+                disabled={hasFieldsError}
+              >
+                {loading ? <Spinner color="white" size={30} /> : 'Submit'}
+              </Button>
             </form>
           </section>
         </div>
