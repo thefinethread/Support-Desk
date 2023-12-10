@@ -21,21 +21,23 @@ const register = asyncHandler(async (req, res) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     res.status(400);
-    throw new Error('User with same email already exists.');
+    throw new Error(
+      'This email is already registered. Please log in or use a different email.'
+    );
   }
 
   const user = await User.create({ name, email, password, isAdmin });
 
   if (!user) {
     res.status(500);
-    throw new Error('Error occurred while creating user');
+    throw new Error('Something went wrong on our end.');
   }
 
   // generate token and set in cookie
   generateToken(res, user);
 
   res.status(201).json(
-    responseMessage('user created', {
+    responseMessage('Success! Your account is now active.', {
       _id: user.id,
       name: user.name,
       email: user.email,
@@ -55,7 +57,7 @@ const login = asyncHandler(async (req, res) => {
   // basic validation
   if (!email || !password) {
     res.status(400);
-    throw new Error('Invalid credentials');
+    throw new Error('Invalid email or password. Please try again.');
   }
 
   const user = await User.findOne({ email }).select('-createdAt -updatedAt');
@@ -64,7 +66,7 @@ const login = asyncHandler(async (req, res) => {
     generateToken(res, user);
 
     res.status(200).json(
-      responseMessage('Logged in successfully', {
+      responseMessage(`Welcome back! You're now logged in.`, {
         _id: user._id,
         name: user.name,
         email: user.email,
@@ -72,7 +74,7 @@ const login = asyncHandler(async (req, res) => {
     );
   } else {
     res.status(401);
-    throw new Error('Invalid email or password');
+    throw new Error('Invalid email or password. Please try again.');
   }
 });
 
@@ -98,7 +100,7 @@ const getMe = (req, res) => {
 */
 const logOut = (req, res) => {
   res.clearCookie('RememberMe');
-  res.status(200).json(responseMessage('logged out successfully'));
+  res.status(200).json(responseMessage(`You're logged out. Have a great day!`));
 };
 
 export { register, login, getMe, logOut };

@@ -1,61 +1,71 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { RiUserAddLine } from 'react-icons/ri';
+import { useSelector, useDispatch } from 'react-redux';
+import { register } from '../features/auth/authThunk';
 import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
 
 const Register = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
+  });
 
   const { name, email, password, password2 } = formData;
 
-  const nameRef = useRef('');
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
-  const password2Ref = useRef('');
+  const dispatch = useDispatch();
 
   const registerInputs = [
     {
-      label: 'name',
+      id: 'name',
       type: 'text',
       placeholder: 'Enter your name',
-      ref: nameRef,
+      required: true,
+      value: name,
     },
     {
-      label: 'email',
+      id: 'email',
       type: 'email',
       placeholder: 'Enter your email',
-      ref: emailRef,
+      required: true,
+      value: email,
     },
     {
-      label: 'password',
+      id: 'password',
       type: 'password',
       placeholder: 'Enter password',
-      ref: passwordRef,
+      required: true,
+      value: password,
     },
     {
-      label: 'password-2',
+      id: 'password2',
       type: 'password',
       placeholder: 'Confirm password',
-      ref: password2Ref,
+      required: true,
+      value: password2,
     },
   ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setFormData({
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password2: password2Ref.current.value,
-    });
-
     if (password !== password2) {
       toast.warn('passwords do not match');
       return;
     }
+
+    dispatch(register(formData));
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
   };
 
   return (
@@ -74,8 +84,8 @@ const Register = () => {
           <section className="px-6">
             <form onSubmit={handleSubmit}>
               {registerInputs.map((input) => (
-                <div className="mb-6" key={input.label}>
-                  <Input ref={input.ref} {...input} required={true} />
+                <div className="mb-6" key={input.id}>
+                  <Input onChange={handleChange} {...input} />
                 </div>
               ))}
               <Button type="submit">Submit</Button>
