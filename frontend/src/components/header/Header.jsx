@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { RiLoginBoxLine, RiUserAddLine } from 'react-icons/ri';
 import NavItem from './NavItem';
+import Container from '../common/Container';
 
 const Header = () => {
   const menuItems = [
@@ -17,17 +18,21 @@ const Header = () => {
   ];
 
   return (
-    <header className="flex justify-between items-center h-14 border-b-2 font-medium">
-      <div>
-        <Link to="/">
-          <h1 className="font-bold text-xl">Support Desk</h1>
-        </Link>
-      </div>
-      <ul className="flex justify-between items-center gap-4">
-        {menuItems.map((item) => (
-          <NavItem key={item.label} {...item} />
-        ))}
-      </ul>
+    <header>
+      <Container>
+        <nav className="flex justify-between items-center h-16 border-b-2 font-medium">
+          <div>
+            <Link to="/">
+              <h1 className="font-bold text-xl">Support Desk</h1>
+            </Link>
+          </div>
+          <ul className="flex justify-between items-center">
+            {menuItems.map((item) => (
+              <NavItem key={item.label} {...item} />
+            ))}
+          </ul>
+        </nav>
+      </Container>
     </header>
   );
 };
