@@ -8,7 +8,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`w-full h-11 rounded-md bg-black text-white cursor-pointer hover:bg-gray-800 disabled:bg-gray-500 disabled:cursor-not-allowed ${className}`}
+      className={`w-full h-11 rounded-md bg-accentDarkShade text-white cursor-pointer hover:bg-accentLightShade disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors ${className}`}
       disabled={disabled}
       {...props}
     >

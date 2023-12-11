@@ -68,13 +68,13 @@ const Register = () => {
     if (user && success) {
       toast.success(message);
       navigate('/');
+      dispatch(reset());
     }
 
     if (hasError) {
       toast.error(message);
+      dispatch(reset());
     }
-
-    dispatch(reset());
   }, [user, success, hasError, message, dispatch, navigate]);
 
   useEffect(() => {
@@ -138,7 +138,10 @@ const Register = () => {
             </form>
             <div className="mt-4 text-sm">
               Already have an account?{' '}
-              <Link className="text-ruddyBlue" to="/login">
+              <Link
+                className="text-accentDarkShade font-medium hover:underline"
+                to="/login"
+              >
                 Log in
               </Link>
             </div>

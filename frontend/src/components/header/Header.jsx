@@ -1,32 +1,59 @@
-import { Link } from 'react-router-dom';
-import { RiLoginBoxLine, RiUserAddLine } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  RiLoginBoxLine,
+  RiLogoutBoxRLine,
+  RiUserAddLine,
+} from 'react-icons/ri';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../features/auth/authThunk';
 import NavItem from './NavItem';
 import Container from '../common/Container';
+import { reset } from '../../features/auth/authSlice';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const menuItems = [
   {
     label: 'Login',
     icon: RiLoginBoxLine,
     path: '/login',
-    private: false,
+    privateNav: false,
   },
   {
     label: 'Register',
     icon: RiUserAddLine,
     path: '/register',
-    private: false,
+    privateNav: false,
   },
   {
     label: 'Logout',
-    icon: RiUserAddLine,
+    icon: RiLogoutBoxRLine,
     path: '',
-    private: true,
+    privateNav: true,
   },
 ];
 
 const Header = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, hasError, message, success } = useSelector(
+    (state) => state.auth
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => dispatch(logout());
+
+  useEffect(() => {
+    if (user && hasError) {
+      toast.error(message);
+    }
+
+    if (!user && success) {
+      toast.success(message);
+      navigate('/');
+    }
+    dispatch(reset());
+  }, [user, hasError, success, navigate, message, dispatch]);
 
   return (
     <header>
@@ -40,10 +67,20 @@ const Header = () => {
           <ul className="flex justify-between items-center">
             {menuItems
               .filter((item) =>
-                user ? item.private === true : item.private === false
+                user ? item.privateNav === true : item.privateNav === false
               )
               .map((item) => (
-                <NavItem key={item.label} {...item} />
+                <NavItem
+                  onClick={item.privateNav && handleLogout}
+                  key={item.label}
+                  {...item}
+                  className={
+                    item.privateNav
+                      ? 'flex-row-reverse bg-accentDarkShade text-white'
+                      : ''
+                  }
+                  hoverBgColor={item.privateNav ? 'bg-accentLightShade' : ''}
+                />
               ))}
           </ul>
         </nav>

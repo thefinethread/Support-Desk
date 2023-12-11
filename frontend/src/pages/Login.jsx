@@ -20,7 +20,7 @@ const Login = () => {
 
   const { email, password } = formData;
 
-  const { user, loading, success, message, hasError } = useSelector(
+  const { user, success, loading, message, hasError } = useSelector(
     (state) => state.auth
   );
 
@@ -47,17 +47,17 @@ const Login = () => {
   ];
 
   useEffect(() => {
-    if (user && success) {
+    if (success && user) {
       toast.success(message);
       navigate('/');
+      dispatch(reset());
     }
 
     if (hasError) {
       toast.error(message);
+      dispatch(reset());
     }
-
-    dispatch(reset());
-  }, [user, success, hasError, message, dispatch, navigate]);
+  }, [user, success, loading, message, hasError, dispatch, navigate]);
 
   useEffect(() => {
     // enable/disable submit button
@@ -115,7 +115,10 @@ const Login = () => {
             </form>
             <div className="mt-4 text-sm">
               Don’t have an account?{' '}
-              <Link className="text-ruddyBlue" to="/register">
+              <Link
+                className="text-accentDarkShade font-medium hover:underline"
+                to="/register"
+              >
                 Register
               </Link>
             </div>
