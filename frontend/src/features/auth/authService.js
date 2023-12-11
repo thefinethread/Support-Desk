@@ -6,4 +6,8 @@ const registerUser = async (user) => {
   return await axios.post(`${API_URL}/register`, user);
 };
 
-export { registerUser };
+const loginUser = async (user) => {
+  return await axios.post(`${API_URL}/login`, user);
+};
+
+export { registerUser, loginUser };

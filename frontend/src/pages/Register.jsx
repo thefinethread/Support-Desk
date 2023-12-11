@@ -65,7 +65,7 @@ const Register = () => {
   ];
 
   useEffect(() => {
-    if (user || success) {
+    if (user && success) {
       toast.success(message);
       navigate('/');
     }
