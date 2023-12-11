@@ -133,7 +133,7 @@ const Register = () => {
                 className={'flex justify-center items-center mt-6'}
                 disabled={hasFieldsError}
               >
-                {loading ? <Spinner color="white" size={30} /> : 'Submit'}
+                {loading ? <Spinner color="white" size={24} /> : 'Submit'}
               </Button>
             </form>
             <div className="mt-4 text-sm">

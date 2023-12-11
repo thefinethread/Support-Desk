@@ -110,7 +110,7 @@ const Login = () => {
                 className={'flex justify-center items-center mt-6'}
                 disabled={hasFieldsError}
               >
-                {loading ? <Spinner color="white" size={30} /> : 'Login'}
+                {loading ? <Spinner color="white" size={24} /> : 'Login'}
               </Button>
             </form>
             <div className="mt-4 text-sm">
