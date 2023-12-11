@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { RiUserAddLine } from 'react-icons/ri';
 import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../features/auth/authThunk';
@@ -32,6 +32,7 @@ const Register = () => {
   const registerInputs = [
     {
       id: 'name',
+      label: 'Name',
       type: 'text',
       placeholder: 'Enter your name',
       required: true,
@@ -39,6 +40,7 @@ const Register = () => {
     },
     {
       id: 'email',
+      label: 'Email Address',
       type: 'email',
       placeholder: 'Enter your email',
       required: true,
@@ -46,6 +48,7 @@ const Register = () => {
     },
     {
       id: 'password',
+      label: 'Password',
       type: 'password',
       placeholder: 'Enter password',
       required: true,
@@ -53,6 +56,7 @@ const Register = () => {
     },
     {
       id: 'password2',
+      label: 'Confirm Password',
       type: 'password',
       placeholder: 'Confirm password',
       required: true,
@@ -105,7 +109,7 @@ const Register = () => {
   };
 
   return (
-    <main className="flex-1 z-10 flex flex-col justify-center">
+    <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
       <Container>
         <div className="h-full text-center max-w-md m-auto py-8">
           <header className="mb-10">
@@ -120,18 +124,24 @@ const Register = () => {
           <section className="px-6">
             <form onSubmit={handleSubmit}>
               {registerInputs.map((input) => (
-                <div className="mb-6" key={input.id}>
+                <div className="mb-3 text-left" key={input.id}>
                   <Input onChange={handleChange} {...input} />
                 </div>
               ))}
               <Button
                 type="submit"
-                className={'flex justify-center items-center'}
+                className={'flex justify-center items-center mt-6'}
                 disabled={hasFieldsError}
               >
                 {loading ? <Spinner color="white" size={30} /> : 'Submit'}
               </Button>
             </form>
+            <div className="mt-4 text-sm">
+              Already have an account?{' '}
+              <Link className="text-ruddyBlue" to="/login">
+                Log in
+              </Link>
+            </div>
           </section>
         </div>
       </Container>

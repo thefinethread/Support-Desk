@@ -1,21 +1,32 @@
 import { Link } from 'react-router-dom';
 import { RiLoginBoxLine, RiUserAddLine } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 import NavItem from './NavItem';
 import Container from '../common/Container';
 
+const menuItems = [
+  {
+    label: 'Login',
+    icon: RiLoginBoxLine,
+    path: '/login',
+    private: false,
+  },
+  {
+    label: 'Register',
+    icon: RiUserAddLine,
+    path: '/register',
+    private: false,
+  },
+  {
+    label: 'Logout',
+    icon: RiUserAddLine,
+    path: '',
+    private: true,
+  },
+];
+
 const Header = () => {
-  const menuItems = [
-    {
-      label: 'Login',
-      icon: RiLoginBoxLine,
-      path: '/login',
-    },
-    {
-      label: 'Register',
-      icon: RiUserAddLine,
-      path: '/register',
-    },
-  ];
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <header>
@@ -27,9 +38,13 @@ const Header = () => {
             </Link>
           </div>
           <ul className="flex justify-between items-center">
-            {menuItems.map((item) => (
-              <NavItem key={item.label} {...item} />
-            ))}
+            {menuItems
+              .filter((item) =>
+                user ? item.private === true : item.private === false
+              )
+              .map((item) => (
+                <NavItem key={item.label} {...item} />
+              ))}
           </ul>
         </nav>
       </Container>
