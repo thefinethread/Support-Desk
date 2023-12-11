@@ -111,17 +111,17 @@ const Register = () => {
   return (
     <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
       <Container>
-        <div className="h-full text-center max-w-md m-auto py-8">
-          <header className="mb-10">
+        <div className="h-full text-center flex flex-col sm:flex-row justify-center items-center max-w-md sm:max-w-2xl m-auto py-8">
+          <header className="mb-10 sm:mb-0">
             <h1 className="flex justify-center items-center font-bold gap-2 text-3xl mb-2">
               <RiUserAddLine />
               <span>Register</span>
             </h1>
-            <h3 className="font-bold text-gray-400 text-2xl">
+            <h3 className="font-bold text-gray-400 text-2xl sm:flex-1">
               Please create an account
             </h3>
           </header>
-          <section className="px-6">
+          <section className="px-6 w-full sm:w-auto">
             <form onSubmit={handleSubmit}>
               {registerInputs.map((input) => (
                 <div className="mb-3 text-left" key={input.id}>
