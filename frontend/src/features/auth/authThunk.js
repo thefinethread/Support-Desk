@@ -47,6 +47,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     const res = await logoutUser();
 
     if (res.status === 200) {
+      localStorage.removeItem('user');
       return res.data;
     } else {
       const message = 'Something went wrong. Please try later.';

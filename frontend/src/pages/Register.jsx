@@ -9,6 +9,7 @@ import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
 import Spinner from '../components/common/Spinner';
 import { reset } from '../features/auth/authSlice';
+import useAuthStatus from '../hooks/useAuthStatus';
 
 const Register = () => {
   const [hasFieldsError, setHasFieldsError] = useState(true);
@@ -25,6 +26,8 @@ const Register = () => {
   const { user, loading, success, message, hasError } = useSelector(
     (state) => state.auth
   );
+
+  const { loggedIn } = useAuthStatus();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,6 +68,10 @@ const Register = () => {
   ];
 
   useEffect(() => {
+    if (loggedIn) {
+      navigate('/');
+    }
+
     if (user && success) {
       toast.success(message);
       navigate('/');
@@ -75,7 +82,7 @@ const Register = () => {
       toast.error(message);
       dispatch(reset());
     }
-  }, [user, success, hasError, message, dispatch, navigate]);
+  }, [user, success, hasError, message, dispatch, navigate, loggedIn]);
 
   useEffect(() => {
     // enable/disable submit button
@@ -111,17 +118,17 @@ const Register = () => {
   return (
     <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
       <Container>
-        <div className="h-full text-center flex flex-col sm:flex-row justify-center items-center max-w-md sm:max-w-2xl m-auto py-8">
+        <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-2xl m-auto py-8">
           <header className="mb-10 sm:mb-0">
             <h1 className="flex justify-center items-center font-bold gap-2 text-3xl mb-2">
               <RiUserAddLine />
               <span>Register</span>
             </h1>
-            <h3 className="font-bold text-gray-400 text-2xl sm:flex-1">
+            <h3 className="font-bold text-gray-400 text-2xl">
               Please create an account
             </h3>
           </header>
-          <section className="px-6 w-full sm:w-auto">
+          <section className="px-6 w-full sm:w-auto sm:flex-1">
             <form onSubmit={handleSubmit}>
               {registerInputs.map((input) => (
                 <div className="mb-3 text-left" key={input.id}>

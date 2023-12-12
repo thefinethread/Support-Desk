@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Container from '../components/common/Container';
 import Button from '../components/common/Button';
 
@@ -15,10 +16,14 @@ const Home = () => {
             </h3>
           </header>
           <section className="px-6">
-            <Button version="secondary" className="mb-4">
-              Create New Ticket
-            </Button>
-            <Button>View My Tickets</Button>
+            <Link to="new-ticket">
+              <Button version="secondary" className="mb-4">
+                Create New Ticket
+              </Button>
+            </Link>
+            <Link to="/tickets">
+              <Button>View My Tickets</Button>
+            </Link>
           </section>
         </div>
       </Container>

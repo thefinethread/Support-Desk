@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { RiLoginBoxLine } from 'react-icons/ri';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../features/auth/authThunk';
@@ -9,6 +9,7 @@ import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
 import Spinner from '../components/common/Spinner';
 import { reset } from '../features/auth/authSlice';
+import useAuthStatus from '../hooks/useAuthStatus';
 
 const Login = () => {
   const [hasFieldsError, setHasFieldsError] = useState(true);
@@ -24,8 +25,11 @@ const Login = () => {
     (state) => state.auth
   );
 
+  const { loggedIn } = useAuthStatus();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const loginInputs = [
     {
@@ -47,9 +51,16 @@ const Login = () => {
   ];
 
   useEffect(() => {
+    if (loggedIn) {
+      navigate('/');
+    }
+
     if (success && user) {
       toast.success(message);
-      navigate('/');
+      // redirect to be the previous url
+      const redirectUrl = location.state?.from || '/';
+      navigate(redirectUrl);
+
       dispatch(reset());
     }
 
@@ -57,7 +68,17 @@ const Login = () => {
       toast.error(message);
       dispatch(reset());
     }
-  }, [user, success, loading, message, hasError, dispatch, navigate]);
+  }, [
+    user,
+    success,
+    loading,
+    message,
+    hasError,
+    dispatch,
+    navigate,
+    location,
+    loggedIn,
+  ]);
 
   useEffect(() => {
     // enable/disable submit button
@@ -88,17 +109,17 @@ const Login = () => {
   return (
     <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
       <Container>
-        <div className="h-full text-center flex flex-col sm:flex-row justify-center items-center max-w-md sm:max-w-2xl m-auto py-8">
+        <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-2xl m-auto py-8">
           <header className="mb-10 sm:mb-0">
             <h1 className="flex justify-center items-center font-bold gap-2 text-3xl mb-2">
               <RiLoginBoxLine />
               <span>Login</span>
             </h1>
-            <h3 className="font-bold text-gray-400 text-2xl sm:flex-1">
+            <h3 className="font-bold text-gray-400 text-2xl">
               Please login to get support
             </h3>
           </header>
-          <section className="px-6 w-full sm:w-auto">
+          <section className="px-6 w-full sm:w-auto sm:flex-1">
             <form onSubmit={handleSubmit}>
               {loginInputs.map((input) => (
                 <div className="mb-3 text-left" key={input.id}>

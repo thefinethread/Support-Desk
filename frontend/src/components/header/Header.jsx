@@ -11,6 +11,7 @@ import Container from '../common/Container';
 import { reset } from '../../features/auth/authSlice';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import useAuthStatus from '../../hooks/useAuthStatus';
 
 const menuItems = [
   {
@@ -37,6 +38,8 @@ const Header = () => {
   const { user, hasError, message, success } = useSelector(
     (state) => state.auth
   );
+
+  const { loggedIn } = useAuthStatus();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,7 +70,7 @@ const Header = () => {
           <ul className="flex justify-between items-center">
             {menuItems
               .filter((item) =>
-                user ? item.privateNav === true : item.privateNav === false
+                loggedIn ? item.privateNav === true : item.privateNav === false
               )
               .map((item) => (
                 <NavItem

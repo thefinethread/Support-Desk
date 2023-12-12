@@ -7,6 +7,9 @@ import Header from './components/header/Header';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import store from './store/store';
+import TicketForm from './pages/TicketForm';
+import PrivateRoute from './components/privateRoute/PrivateRoute';
+import Tickets from './pages/Tickets';
 
 const App = () => {
   return (
@@ -15,9 +18,13 @@ const App = () => {
         <Provider store={store}>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/*" element={<PrivateRoute />}>
+              <Route path="new-ticket" element={<TicketForm />} />
+              <Route path="tickets" element={<Tickets />} />
+            </Route>
           </Routes>
         </Provider>
       </BrowserRouter>
