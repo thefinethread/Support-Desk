@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "status": "new",
+    "code": "N"
+  },
+  {
+    "id": 2,
+    "status": "open",
+    "code": "O"
+  },
+  {
+    "id": 3,
+    "status": "closed",
+    "code": "C"
+  }
+]

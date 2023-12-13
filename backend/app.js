@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { REQ_LIMIT_SIZE } from './constants.js';
 import { errorHandler } from './middlewares/errorMiddleware.js';
 import userRouter from './routes/userRouter.js';
+import ticketRouter from './routes/ticketRouter.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 // routes
 app.use('/api/users', userRouter);
+app.use('/api/tickets', ticketRouter);
 
 // config custom error handler
 app.use(errorHandler);
