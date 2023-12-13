@@ -19,6 +19,7 @@ const ticketSchema = new Schema(
       type: String,
       required: true,
       enum: ['new', 'open', 'closed'],
+      default: 'new',
     },
   },
   {
