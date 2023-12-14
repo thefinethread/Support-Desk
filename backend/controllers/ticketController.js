@@ -37,4 +37,15 @@ const createTicket = asyncHandler(async (req, res) => {
   }
 });
 
-export { createTicket };
+/*
+    Desc: get all tickets of the user
+    api: /api/tickets
+    private
+*/
+const getAllTickets = asyncHandler(async (req, res) => {
+  const tickets = await Ticket.find({ userRef: req.user._id });
+
+  res.status(200).json(responseMessage(null, tickets));
+});
+
+export { createTicket, getAllTickets };
