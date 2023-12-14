@@ -13,7 +13,7 @@ import Tickets from './pages/Tickets';
 
 const App = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col text-sm">
       <BrowserRouter>
         <Provider store={store}>
           <Header />

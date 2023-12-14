@@ -12,6 +12,9 @@ module.exports = {
         secondaryLightShade: '#2a6fdb',
         secondaryDarkShade: '#122c91',
       },
+      boxShadow: {
+        custom: '0 0 0 5px rgb(42,111,219,0.3)',
+      },
     },
   },
   plugins: [],

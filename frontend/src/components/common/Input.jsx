@@ -11,7 +11,7 @@ const Input = ({
 }) => {
   return (
     <>
-      <label htmlFor={id} className="font-medium text-sm block mb-1">
+      <label htmlFor={id} className="font-semibold block mb-1">
         {label}
       </label>
       <input
@@ -21,7 +21,7 @@ const Input = ({
         required={required}
         type={type}
         placeholder={placeholder}
-        className={`w-full outline-none py-2 pl-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-[0_0_0_5px_rgb(42,111,219,0.3)] disabled:cursor-not-allowed ${className}`}
+        className={`w-full outline-none py-2 pl-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom disabled:cursor-not-allowed ${className}`}
         {...props}
       />
     </>

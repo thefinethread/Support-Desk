@@ -55,7 +55,7 @@ const TicketForm = () => {
   const handleSubmit = () => {};
 
   return (
-    <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
+    <main className="flex-1 z-10 flex flex-col justify-center">
       <Container>
         <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-2xl m-auto py-8">
           <header className="mb-10 sm:mb-0">
@@ -82,6 +82,20 @@ const TicketForm = () => {
                 onChange={handleProductValueChange}
               />
 
+              <div>
+                <label
+                  htmlFor="description"
+                  className="font-semibold text-left block mb-1"
+                >
+                  Description of the issue
+                </label>
+                <textarea
+                  id="description"
+                  placeholder="description"
+                  className={`w-full outline-none p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
+                ></textarea>
+              </div>
+
               <Button
                 type="submit"
                 className={'flex justify-center items-center mt-6'}
@@ -89,15 +103,6 @@ const TicketForm = () => {
                 {false ? <Spinner color="white" size={24} /> : 'Submit'}
               </Button>
             </form>
-            <div className="mt-4 text-sm">
-              Don’t have an account?{' '}
-              <Link
-                className="text-accentDarkShade font-medium hover:underline"
-                to="/register"
-              >
-                Register
-              </Link>
-            </div>
           </section>
         </div>
       </Container>
