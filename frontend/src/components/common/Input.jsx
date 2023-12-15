@@ -2,7 +2,7 @@ const Input = ({
   id,
   type,
   placeholder,
-  required,
+  required = true,
   value,
   label,
   className = '',

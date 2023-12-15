@@ -8,6 +8,8 @@ import SelectInput from '../components/common/SelectInput';
 import useSelectInput from '../hooks/useSelectInput';
 import { getRef } from '../features/referenceData/referenceDataSlice';
 import { PRODUCTS_REF_TYPE } from '../constants/constants';
+import { reset } from '../features/referenceData/referenceDataSlice';
+import { toast } from 'react-toastify';
 
 const TicketForm = () => {
   const dispatch = useDispatch();
@@ -65,10 +67,30 @@ const TicketForm = () => {
   }, [referenceData, hasError, success]);
 
   useEffect(() => {
-    dispatch(getRef(PRODUCTS_REF_TYPE));
+    const fetchRefTypes = async () => {
+      await dispatch(getRef(PRODUCTS_REF_TYPE));
+      dispatch(reset());
+    };
+    fetchRefTypes();
   }, [dispatch]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedProduct || !description || !user.name || !user.email) {
+      toast.info('Please fill in all the details');
+      return;
+    }
+
+    // dispatch(
+    //   createTicket({
+    //     product: selectedProduct,
+    //     description,
+    //   })
+    // );
+  };
+
+  const handleTextAreaChange = (e) => setDescription(e.target.value);
 
   return (
     <main className="flex-1 z-10 flex flex-col justify-center">
@@ -96,6 +118,7 @@ const TicketForm = () => {
                 options={productOptions}
                 placeholder="Select"
                 onChange={handleProductValueChange}
+                required={true}
               />
 
               {/* show spinner while fetching refData */}
@@ -119,6 +142,8 @@ const TicketForm = () => {
                 <textarea
                   id="description"
                   placeholder="description"
+                  required={true}
+                  onChange={handleTextAreaChange}
                   className={`w-full outline-none p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
                 ></textarea>
               </div>

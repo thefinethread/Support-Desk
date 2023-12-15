@@ -30,7 +30,13 @@ export const getRef = createAsyncThunk(
 const referenceDataSlice = createSlice({
   name: 'referenceData',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.hasError = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getRef.pending, (state) => {
@@ -50,4 +56,5 @@ const referenceDataSlice = createSlice({
   },
 });
 
+export const { reset } = referenceDataSlice.actions;
 export default referenceDataSlice.reducer;
