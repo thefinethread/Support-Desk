@@ -11,19 +11,18 @@ const initialState = {
 export const getRef = createAsyncThunk(
   'referenceData/getRef',
   async (type, thunkAPI) => {
+    const res = await getRefService(type);
     try {
-      const res = await getRefService(type);
-
       if (res.status === 200) {
         return { type, data: res.data };
       } else {
         const message = 'Something went wrong. Please try later.';
-        thunkAPI.rejectWithValue(message);
+        return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
       const message =
         error?.response?.data?.message || error?.message || error.toString();
-      thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -42,7 +41,7 @@ const referenceDataSlice = createSlice({
         state.success = true;
 
         const { type, data } = action.payload;
-        state.referenceData[type] = data;
+        state.referenceData[type] = data.data;
       })
       .addCase(getRef.rejected, (state, action) => {
         state.loading = false;

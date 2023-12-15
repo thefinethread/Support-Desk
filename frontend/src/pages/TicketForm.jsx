@@ -1,28 +1,31 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { RiLoginBoxLine } from 'react-icons/ri';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../features/auth/authThunk';
 import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import { toast } from 'react-toastify';
 import Spinner from '../components/common/Spinner';
-import { reset } from '../features/auth/authSlice';
-import useAuthStatus from '../hooks/useAuthStatus';
 import SelectInput from '../components/common/SelectInput';
 import useSelectInput from '../hooks/useSelectInput';
+import { getRef } from '../features/referenceData/referenceDataSlice';
+import { PRODUCTS_REF_TYPE } from '../constants/constants';
 
 const TicketForm = () => {
-  const [product, setProduct] = useState('');
-  const [description, setDescription] = useState('');
-  // const [selectedProduct, setSelectedProduct] = useState('')
+  const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const {
+    referenceData,
+    success,
+    hasError,
+    loading: refDataLoading,
+  } = useSelector((state) => state.referenceData);
+
+  const [product, setProduct] = useState('');
+  const [description, setDescription] = useState('');
+  const [productOptions, setProductOptions] = useState([]);
+  const [message, setMessage] = useState('');
+  // const [selectedProduct, setSelectedProduct] = useState('')
 
   const textInputs = [
     {
@@ -44,13 +47,26 @@ const TicketForm = () => {
     },
   ];
 
-  const productOptions = [
-    { value: 'iPhone', label: 'iPhone' },
-    { value: 'iMac', label: 'iMac' },
-  ];
-
   const { value: selectedProduct, onChange: handleProductValueChange } =
     useSelectInput('', productOptions);
+
+  useEffect(() => {
+    if (referenceData && success) {
+      setProductOptions(
+        referenceData[PRODUCTS_REF_TYPE]?.map((item) => {
+          return { value: item?.code || item?.name, label: item?.name };
+        })
+      );
+    }
+
+    if (hasError) {
+      setMessage(`Couldn't fetch product list`);
+    }
+  }, [referenceData, hasError, success]);
+
+  useEffect(() => {
+    dispatch(getRef(PRODUCTS_REF_TYPE));
+  }, [dispatch]);
 
   const handleSubmit = () => {};
 
@@ -81,6 +97,17 @@ const TicketForm = () => {
                 placeholder="Select"
                 onChange={handleProductValueChange}
               />
+
+              {/* show spinner while fetching refData */}
+              {(refDataLoading || hasError) && (
+                <div className="w-fit -mt-2 mb-2 text-red-500 text-xs font-semibold">
+                  {refDataLoading ? (
+                    <Spinner size={20}>fetching products...</Spinner>
+                  ) : (
+                    hasError && <p>{message}</p>
+                  )}
+                </div>
+              )}
 
               <div>
                 <label

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
-import referenceDataReducer from '../features/auth/referenceDataSlice';
+import referenceDataReducer from '../features/referenceData/referenceDataSlice';
 
 const store = configureStore({
   reducer: {
