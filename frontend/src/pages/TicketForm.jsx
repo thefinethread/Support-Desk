@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
@@ -8,20 +9,31 @@ import SelectInput from '../components/common/SelectInput';
 import useSelectInput from '../hooks/useSelectInput';
 import { getRef } from '../features/referenceData/referenceDataSlice';
 import { PRODUCTS_REF_TYPE } from '../constants/constants';
-import { reset } from '../features/referenceData/referenceDataSlice';
+import { reset as resetRefData } from '../features/referenceData/referenceDataSlice';
+import { reset as resetTicket } from '../features/ticket/ticketSlice';
 import { toast } from 'react-toastify';
+import { createTicketThunk } from '../features/ticket/ticketThunk';
 
 const TicketForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
 
   const {
     referenceData,
-    success,
-    hasError,
+    success: refDataSuccess,
+    hasError: refDataError,
     loading: refDataLoading,
   } = useSelector((state) => state.referenceData);
+
+  const {
+    ticket,
+    success: ticketSuccess,
+    refDataError: ticketError,
+    loading: ticketLoading,
+    message: ticketMessage,
+  } = useSelector((state) => state.ticket);
 
   const [description, setDescription] = useState(
     sessionStorage.getItem('description') || ''
@@ -64,12 +76,12 @@ const TicketForm = () => {
       return;
     }
 
-    // dispatch(
-    //   createTicket({
-    //     product: selectedProduct,
-    //     description,
-    //   })
-    // );
+    dispatch(
+      createTicketThunk({
+        product: selectedProduct,
+        description,
+      })
+    );
   };
 
   const handleTextAreaChange = (e) => {
@@ -89,7 +101,18 @@ const TicketForm = () => {
   }, [selectedProduct, description]);
 
   useEffect(() => {
-    if (referenceData && success) {
+    if (ticketSuccess && ticket) {
+      toast.success(ticketMessage);
+      sessionStorage.clear();
+      navigate('/');
+      dispatch(resetTicket());
+    } else if (ticketError) {
+      toast.error(ticketMessage);
+    }
+  }, [navigate, ticket, ticketError, ticketMessage, ticketSuccess, dispatch]);
+
+  useEffect(() => {
+    if (referenceData && refDataSuccess) {
       setProductOptions(
         referenceData[PRODUCTS_REF_TYPE]?.map((item) => {
           return { value: item?.code || item?.name, label: item?.name };
@@ -97,15 +120,15 @@ const TicketForm = () => {
       );
     }
 
-    if (hasError) {
+    if (refDataError) {
       setMessage(`Couldn't fetch product list`);
     }
-  }, [referenceData, hasError, success]);
+  }, [referenceData, refDataError, refDataSuccess]);
 
   useEffect(() => {
     const fetchRefTypes = async () => {
       await dispatch(getRef(PRODUCTS_REF_TYPE));
-      dispatch(reset());
+      dispatch(resetRefData());
     };
     fetchRefTypes();
   }, [dispatch]);
@@ -113,14 +136,14 @@ const TicketForm = () => {
   return (
     <main className="flex-1 z-10 flex flex-col justify-center">
       <Container>
-        <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-2xl m-auto py-8">
+        <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-3xl m-auto py-8">
           <header className="mb-10 sm:mb-0">
             <h1 className="font-bold text-3xl mb-3">Create New Ticket</h1>
             <h3 className="font-bold text-gray-400 text-2xl">
-              Please fill out the form below
+              Please fill out the form
             </h3>
           </header>
-          <section className="px-6 w-full sm:w-auto sm:flex-1">
+          <section className="px-6 w-full min-w-[400px] sm:flex-1">
             <form onSubmit={handleSubmit}>
               {textInputs.map((input) => (
                 <div className="mb-3 text-left" key={input.id}>
@@ -140,12 +163,12 @@ const TicketForm = () => {
               />
 
               {/* show spinner while fetching refData */}
-              {(refDataLoading || hasError) && (
+              {(refDataLoading || refDataError) && (
                 <div className="w-fit -mt-2 mb-2 text-red-500 text-xs font-semibold">
                   {refDataLoading ? (
                     <Spinner size={20}>fetching products...</Spinner>
                   ) : (
-                    hasError && <p>{message}</p>
+                    refDataError && <p>{message}</p>
                   )}
                 </div>
               )}
@@ -172,7 +195,7 @@ const TicketForm = () => {
                 className={'flex justify-center items-center mt-6'}
                 disabled={hasFieldsError}
               >
-                {false ? <Spinner color="white" size={24} /> : 'Submit'}
+                {ticketLoading ? <Spinner color="white" size={24} /> : 'Submit'}
               </Button>
             </form>
           </section>
