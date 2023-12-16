@@ -80,7 +80,6 @@ const Login = () => {
       toast.success(message);
       // redirect to be the previous url
       const redirectUrl = location.state?.from || '/';
-      console.log(redirectUrl);
       navigate(redirectUrl);
 
       dispatch(reset());

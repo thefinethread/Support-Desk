@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from '../components/common/Container';
-import useAuthStatus from '../hooks/useAuthStatus';
-import { logout } from '../features/auth/authThunk';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Spinner from '../components/common/Spinner';
@@ -25,13 +23,15 @@ const TicketForm = () => {
     loading: refDataLoading,
   } = useSelector((state) => state.referenceData);
 
-  const { loggedIn } = useAuthStatus();
-
-  const [product, setProduct] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(
+    sessionStorage.getItem('description') || ''
+  );
   const [productOptions, setProductOptions] = useState([]);
   const [message, setMessage] = useState('');
-  // const [selectedProduct, setSelectedProduct] = useState('')
+  const [hasFieldsError, setHasFieldsError] = useState(true);
+  const [product, setProduct] = useState(
+    sessionStorage.getItem('product') || ''
+  );
 
   const textInputs = [
     {
@@ -54,7 +54,39 @@ const TicketForm = () => {
   ];
 
   const { value: selectedProduct, onChange: handleProductValueChange } =
-    useSelectInput('', productOptions);
+    useSelectInput(product, productOptions);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedProduct || !description || !user.name || !user.email) {
+      toast.info('Please fill in all the details');
+      return;
+    }
+
+    // dispatch(
+    //   createTicket({
+    //     product: selectedProduct,
+    //     description,
+    //   })
+    // );
+  };
+
+  const handleTextAreaChange = (e) => {
+    setDescription(e.target.value);
+    sessionStorage.setItem('description', e.target.value);
+  };
+
+  useEffect(() => {
+    setProduct(selectedProduct);
+    sessionStorage.setItem('product', selectedProduct);
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    !selectedProduct || !description
+      ? setHasFieldsError(true)
+      : setHasFieldsError(false);
+  }, [selectedProduct, description]);
 
   useEffect(() => {
     if (referenceData && success) {
@@ -77,24 +109,6 @@ const TicketForm = () => {
     };
     fetchRefTypes();
   }, [dispatch]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!selectedProduct || !description || !user.name || !user.email) {
-      toast.info('Please fill in all the details');
-      return;
-    }
-
-    // dispatch(
-    //   createTicket({
-    //     product: selectedProduct,
-    //     description,
-    //   })
-    // );
-  };
-
-  const handleTextAreaChange = (e) => setDescription(e.target.value);
 
   return (
     <main className="flex-1 z-10 flex flex-col justify-center">
@@ -146,6 +160,7 @@ const TicketForm = () => {
                 <textarea
                   id="description"
                   placeholder="description"
+                  value={description}
                   required={true}
                   onChange={handleTextAreaChange}
                   className={`w-full outline-none p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
@@ -155,6 +170,7 @@ const TicketForm = () => {
               <Button
                 type="submit"
                 className={'flex justify-center items-center mt-6'}
+                disabled={hasFieldsError}
               >
                 {false ? <Spinner color="white" size={24} /> : 'Submit'}
               </Button>
