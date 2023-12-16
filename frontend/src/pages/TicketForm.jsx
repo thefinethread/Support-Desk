@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from '../components/common/Container';
+import useAuthStatus from '../hooks/useAuthStatus';
+import { logout } from '../features/auth/authThunk';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Spinner from '../components/common/Spinner';
@@ -22,6 +24,8 @@ const TicketForm = () => {
     hasError,
     loading: refDataLoading,
   } = useSelector((state) => state.referenceData);
+
+  const { loggedIn } = useAuthStatus();
 
   const [product, setProduct] = useState('');
   const [description, setDescription] = useState('');

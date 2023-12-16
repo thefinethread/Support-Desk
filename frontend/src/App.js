@@ -10,8 +10,12 @@ import store from './store/store';
 import TicketForm from './pages/TicketForm';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import Tickets from './pages/Tickets';
+import axiosInterceptor from './axios/axiosInterceptor';
 
 const App = () => {
+  // initialize axios interceptor with store
+  axiosInterceptor(store);
+
   return (
     <div className="min-h-screen flex flex-col text-sm">
       <BrowserRouter>

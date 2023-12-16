@@ -51,12 +51,11 @@ const Header = () => {
       toast.error(message);
     }
 
-    if (!user && success) {
-      toast.success(message);
+    if (!loggedIn && success) {
       navigate('/');
+      dispatch(reset());
     }
-    dispatch(reset());
-  }, [user, hasError, success, navigate, message, dispatch]);
+  }, [loggedIn, user, hasError, success, navigate, message, dispatch]);
 
   return (
     <header>

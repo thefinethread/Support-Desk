@@ -1,10 +1,10 @@
-import axios from 'axios';
+import instance from '../../axios/axiosInstance';
 
 const REF_URL = '/api/ref';
 
 const getRefService = async (type) => {
   try {
-    return await axios.get(REF_URL, {
+    return await instance.get(REF_URL, {
       params: {
         refType: type,
       },

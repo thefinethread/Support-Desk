@@ -50,21 +50,41 @@ const Login = () => {
     },
   ];
 
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/');
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if ([...Object.values(formData)].some((field) => !field)) {
+      toast.warn('Please fill in all the fields');
+      return;
     }
 
-    if (success && user) {
+    dispatch(login(formData));
+  };
+
+  useEffect(() => {
+    // If already logged in, redirect away from the login page
+    if (loggedIn) {
+      navigate('/'); // Redirect to '/'
+    }
+  }, [loggedIn, navigate]);
+
+  useEffect(() => {
+    if (loggedIn && success) {
       toast.success(message);
       // redirect to be the previous url
       const redirectUrl = location.state?.from || '/';
+      console.log(redirectUrl);
       navigate(redirectUrl);
 
       dispatch(reset());
-    }
-
-    if (hasError) {
+    } else if (hasError) {
       toast.error(message);
       dispatch(reset());
     }
@@ -87,24 +107,6 @@ const Login = () => {
     );
     setHasFieldsError(!allFieldsFilled);
   }, [formData]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if ([...Object.values(formData)].some((field) => !field)) {
-      toast.warn('Please fill in all the fields');
-      return;
-    }
-
-    dispatch(login(formData));
-  };
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.id]: e.target.value,
-    }));
-  };
 
   return (
     <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
