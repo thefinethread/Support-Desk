@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createTicketThunk } from './ticketThunk';
+import { createTicketThunk, getAllTicketsThunk } from './ticketThunk';
 
 const initialState = {
   tickets: [],
@@ -34,6 +34,22 @@ const ticketSlice = createSlice({
         state.hasError = false;
       })
       .addCase(createTicketThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.hasError = true;
+        state.message = action.payload.message;
+      })
+
+      .addCase(getAllTicketsThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllTicketsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.tickets = action.payload.data;
+        state.message = action.payload.message;
+        state.hasError = false;
+      })
+      .addCase(getAllTicketsThunk.rejected, (state, action) => {
         state.loading = false;
         state.hasError = true;
         state.message = action.payload.message;

@@ -104,7 +104,7 @@ const TicketForm = () => {
     if (ticketSuccess && ticket) {
       toast.success(ticketMessage);
       sessionStorage.clear();
-      navigate('/');
+      navigate('/tickets');
       dispatch(resetTicket());
     } else if (ticketError) {
       toast.error(ticketMessage);

@@ -10,4 +10,12 @@ const createTicket = async (ticket) => {
   }
 };
 
-export { createTicket };
+const getAllTickets = async () => {
+  try {
+    return await instance.get(TICKET_URL);
+  } catch (error) {
+    console.log(error?.response?.message);
+  }
+};
+
+export { createTicket, getAllTickets };

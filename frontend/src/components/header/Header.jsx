@@ -1,9 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  RiLoginBoxLine,
-  RiLogoutBoxRLine,
-  RiUserAddLine,
-} from 'react-icons/ri';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authThunk';
 import NavItem from './NavItem';
@@ -12,27 +7,7 @@ import { reset } from '../../features/auth/authSlice';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useAuthStatus from '../../hooks/useAuthStatus';
-
-const menuItems = [
-  {
-    label: 'Login',
-    icon: RiLoginBoxLine,
-    path: '/login',
-    privateNav: false,
-  },
-  {
-    label: 'Register',
-    icon: RiUserAddLine,
-    path: '/register',
-    privateNav: false,
-  },
-  {
-    label: 'Logout',
-    icon: RiLogoutBoxRLine,
-    path: '',
-    privateNav: true,
-  },
-];
+import { menuItems } from '../../constants/menuItems';
 
 const Header = () => {
   const { user, hasError, message, success } = useSelector(
@@ -66,7 +41,7 @@ const Header = () => {
               <h1 className="font-bold text-xl">Support Desk</h1>
             </Link>
           </div>
-          <ul className="flex justify-between items-center">
+          <ul className="flex justify-between items-center gap-1">
             {menuItems
               .filter((item) =>
                 loggedIn ? item.privateNav === true : item.privateNav === false
@@ -78,10 +53,9 @@ const Header = () => {
                   {...item}
                   className={
                     item.privateNav
-                      ? 'flex-row-reverse bg-accentDarkShade text-white'
-                      : ''
+                      ? 'flex-row-reverse bg-accentDarkShade text-white hover:bg-accentLightShade'
+                      : 'hover:bg-gray-100'
                   }
-                  hoverBgColor={item.privateNav ? 'bg-accentLightShade' : ''}
                 />
               ))}
           </ul>

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { createTicket } from './ticketService';
+import { createTicket, getAllTickets } from './ticketService';
 
 export const createTicketThunk = createAsyncThunk(
   'ticket/create',
@@ -8,6 +8,26 @@ export const createTicketThunk = createAsyncThunk(
       const res = await createTicket(ticketData);
 
       if (res.status === 201) {
+        return res.data;
+      } else {
+        const message = 'Something went wrong. Please try later.';
+        return thunkAPI.rejectWithValue(message);
+      }
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || error?.message || error?.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getAllTicketsThunk = createAsyncThunk(
+  'ticket/getAll',
+  async (_, thunkAPI) => {
+    try {
+      const res = await getAllTickets();
+
+      if (res.status === 200) {
         return res.data;
       } else {
         const message = 'Something went wrong. Please try later.';
