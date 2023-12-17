@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import useAuthStatus from '../../hooks/useAuthStatus';
 import { menuItems } from '../../constants/menuItems';
 
-const Header = () => {
+const Navbar = () => {
   const { user, hasError, message, success } = useSelector(
     (state) => state.auth
   );
@@ -65,4 +65,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

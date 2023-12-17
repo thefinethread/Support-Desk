@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Header from './components/header/Header';
+import Navbar from './components/TopNav/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import store from './store/store';
@@ -20,7 +20,7 @@ const App = () => {
     <div className="min-h-screen flex flex-col text-sm">
       <BrowserRouter>
         <Provider store={store}>
-          <Header />
+          <Navbar />
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/login" element={<Login />} />
