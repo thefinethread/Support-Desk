@@ -6,6 +6,8 @@ import Spinner from '../components/common/Spinner';
 import Divider from '../components/common/Divider';
 import SubHeader from '../components/common/SubHeader';
 import TicketList from '../components/Ticket/TicketList';
+import { reset } from '../features/ticket/ticketSlice';
+import { toast } from 'react-toastify';
 
 const Tickets = () => {
   const dispatch = useDispatch();
@@ -15,8 +17,22 @@ const Tickets = () => {
   );
 
   useEffect(() => {
+    return () => {
+      if (success) {
+        dispatch(reset());
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(getAllTicketsThunk());
   }, []);
+
+  useEffect(() => {
+    if (hasError && message) {
+      toast.error(message);
+    }
+  }, [hasError, message]);
 
   return (
     <main className="relative flex-1 z-10">
@@ -31,7 +47,11 @@ const Tickets = () => {
           <div className=" h-full max-w-md sm:max-w-3xl mx-auto ">
             <SubHeader>Your Tickets</SubHeader>
             <Divider />
-            <TicketList ticketList={tickets} />
+            {tickets ? (
+              <TicketList ticketList={tickets} />
+            ) : (
+              <p>You have not created any tickets.</p>
+            )}
           </div>
         </Container>
       )}

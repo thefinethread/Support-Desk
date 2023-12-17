@@ -104,12 +104,12 @@ const TicketForm = () => {
     if (ticketSuccess && ticket) {
       toast.success(ticketMessage);
       sessionStorage.clear();
-      navigate('/tickets');
       dispatch(resetTicket());
+      navigate('/tickets');
     } else if (ticketError) {
       toast.error(ticketMessage);
     }
-  }, [navigate, ticket, ticketError, ticketMessage, ticketSuccess, dispatch]);
+  }, [navigate, ticket, ticketError, ticketMessage, ticketSuccess]);
 
   useEffect(() => {
     if (referenceData && refDataSuccess) {
@@ -131,7 +131,7 @@ const TicketForm = () => {
       dispatch(resetRefData());
     };
     fetchRefTypes();
-  }, [dispatch]);
+  }, []);
 
   return (
     <main className="flex-1 z-10 flex flex-col justify-center">

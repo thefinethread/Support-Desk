@@ -11,6 +11,7 @@ import TicketForm from './pages/TicketForm';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import Tickets from './pages/Tickets';
 import axiosInterceptor from './axios/axiosInterceptor';
+import Ticket from './pages/Ticket';
 
 const App = () => {
   // initialize axios interceptor with store
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/*" element={<PrivateRoute />}>
               <Route path="new-ticket" element={<TicketForm />} />
               <Route path="tickets" element={<Tickets />} />
+              <Route path="ticket/:id" element={<Ticket />} />
             </Route>
           </Routes>
         </Provider>
