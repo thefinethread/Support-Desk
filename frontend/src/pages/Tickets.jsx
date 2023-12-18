@@ -22,7 +22,7 @@ const Tickets = () => {
         dispatch(reset());
       }
     };
-  }, []);
+  }, [success]);
 
   useEffect(() => {
     dispatch(getAllTicketsThunk());

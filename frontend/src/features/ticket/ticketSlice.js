@@ -18,6 +18,7 @@ const ticketSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.hasError = false;
+      state.ticket = {};
       state.message = '';
     },
   },
