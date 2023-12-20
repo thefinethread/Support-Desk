@@ -7,7 +7,7 @@ import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
-import Spinner from '../components/common/Spinner';
+import Spinner from '../components/common/spinner/Spinner';
 import { reset } from '../features/auth/authSlice';
 import useAuthStatus from '../hooks/useAuthStatus';
 

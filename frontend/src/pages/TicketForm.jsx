@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Container from '../components/common/Container';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import Spinner from '../components/common/Spinner';
+import Spinner from '../components/common/spinner/Spinner';
 import SelectInput from '../components/common/SelectInput';
 import useSelectInput from '../hooks/useSelectInput';
 import { getRef } from '../features/referenceData/referenceDataSlice';

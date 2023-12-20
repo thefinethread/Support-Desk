@@ -3,6 +3,7 @@ import { RiCircleFill, RiWechatLine } from 'react-icons/ri';
 import { statusColor } from '../../constants/statusColor';
 import { calculateElapsedTime } from '../../utils/helperFunctions';
 import { defaultProductColors } from '../../constants/productColors';
+import StyledText from '../common/StyledText';
 
 const ExtraInfo = ({ item, className }) => {
   return (
@@ -19,13 +20,9 @@ const TicketItem = ({ ...ticket }) => {
       <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30  transition-colors cursor-pointer">
         <div className="flex flex-wrap gap-2 font-semibold text-gray-700 mb-3">
           <div className="text-sm">{ticket.description}</div>
-          <span
-            className={`text-white text-[9px] rounded-sm tracking-wide px-2 ${
-              statusColor[ticket.status]
-            }`}
-          >
+          <StyledText bgColor={statusColor[ticket.status]}>
             {ticket.status.toUpperCase()}
-          </span>
+          </StyledText>
         </div>
         <div className="flex gap-4 text-xs">
           <ExtraInfo
