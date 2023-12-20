@@ -18,4 +18,12 @@ const getAllTickets = async () => {
   }
 };
 
-export { createTicket, getAllTickets };
+const getTicket = async (id) => {
+  try {
+    return await instance.get(`${TICKET_URL}/${id}`);
+  } catch (error) {
+    console.log(error?.response?.message);
+  }
+};
+
+export { createTicket, getAllTickets, getTicket };

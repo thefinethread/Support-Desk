@@ -56,20 +56,20 @@ const getAllTickets = asyncHandler(async (req, res) => {
     private
 */
 const getTicket = asyncHandler(async (req, res) => {
-  const { ticketId } = req.params;
+  const { id } = req.params;
 
-  if (!ticketId) {
+  if (!id) {
     res.status(400);
     throw new Error('Missing ticket Id parameter');
   }
 
-  const ticket = await Ticket.findById(ticketId);
+  const ticket = await Ticket.findById(id);
 
   if (ticket) {
     res.status(200).json(responseMessage(null, ticket));
   } else {
     res.status(400);
-    throw new Error('Ticket not found for id: ' + ticketId);
+    throw new Error('Ticket not found for id: ' + id);
   }
 });
 

@@ -15,7 +15,7 @@ const ExtraInfo = ({ item, className }) => {
 
 const TicketItem = ({ ...ticket }) => {
   return (
-    <Link to={ticket._id}>
+    <Link to={`/ticket/${ticket._id}`}>
       <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30  transition-colors cursor-pointer">
         <div className="flex flex-wrap gap-2 font-semibold text-gray-700 mb-3">
           <div className="text-sm">{ticket.description}</div>
