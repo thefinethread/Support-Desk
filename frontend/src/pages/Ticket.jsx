@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SubHeader from '../components/common/SubHeader';
-import { getTicketThunk } from '../features/ticket/ticketThunk';
+import {
+  closeTicketThunk,
+  getTicketThunk,
+} from '../features/ticket/ticketThunk';
 import FullPageSpinner from '../components/common/spinner/FullPageSpinner';
 import Container from '../components/common/Container';
 import Divider from '../components/common/Divider';
@@ -11,19 +14,39 @@ import { statusColor } from '../constants/statusColor';
 import { defaultProductColors } from '../constants/productColors';
 import { calculateElapsedTime } from '../utils/helperFunctions';
 import Button from '../components/common/Button';
+import { reset } from '../features/ticket/ticketSlice';
 import { toast } from 'react-toastify';
+import Spinner from '../components/common/spinner/Spinner';
 
 const Ticket = () => {
-  const { ticket, loading, hasError, message } = useSelector(
+  const { ticket, loading, hasError, message, success } = useSelector(
     (state) => state.ticket
   );
-
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const [closeBtnLoading, setCloseBtnLoading] = useState(false);
+
+  const handleCloseTicket = () => {
+    setCloseBtnLoading(true);
+    dispatch(closeTicketThunk(id));
+  };
+
+  useEffect(() => {
+    if (success && message) {
+      toast.success(message);
+      dispatch(reset());
+      setCloseBtnLoading(false);
+    }
+  }, [success, message]);
+
   useEffect(() => {
     dispatch(getTicketThunk(id));
-  }, [id]);
+
+    return () => {
+      dispatch(reset());
+    };
+  }, []);
 
   useEffect(() => {
     hasError && message && toast.error(message);
@@ -31,7 +54,7 @@ const Ticket = () => {
 
   return (
     <main className="relative flex-1 z-10">
-      {loading ? (
+      {loading && !closeBtnLoading ? (
         <FullPageSpinner />
       ) : (
         <Container className="absolute">
@@ -59,8 +82,22 @@ const Ticket = () => {
               <div className="flex flex-col-reverse sm:flex-row my-4 justify-between sm:items-center">
                 <SubHeader className="text-xl">Notes</SubHeader>
                 <div className="w-full max-w-[400px] flex gap-3">
-                  <Button version="secondary">Add Note</Button>
-                  <Button>Close Ticket</Button>
+                  <Button
+                    disabled={ticket.status === 'closed'}
+                    version="secondary"
+                  >
+                    Add Note
+                  </Button>
+                  <Button
+                    disabled={ticket.status === 'closed'}
+                    onClick={handleCloseTicket}
+                  >
+                    {closeBtnLoading ? (
+                      <Spinner color="white" size={24} />
+                    ) : (
+                      'Close Ticket'
+                    )}
+                  </Button>
                 </div>
               </div>
             </section>

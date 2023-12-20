@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { createTicket, getAllTickets, getTicket } from './ticketService';
+import {
+  closeTicket,
+  createTicket,
+  getAllTickets,
+  getTicket,
+} from './ticketService';
 
 export const createTicketThunk = createAsyncThunk(
   'ticket/create',
@@ -46,6 +51,26 @@ export const getTicketThunk = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const res = await getTicket(id);
+
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        const message = 'Something went wrong. Please try later.';
+        return thunkAPI.rejectWithValue(message);
+      }
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || error?.message || error?.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const closeTicketThunk = createAsyncThunk(
+  'ticket/close',
+  async (id, thunkAPI) => {
+    try {
+      const res = await closeTicket(id);
 
       if (res.status === 200) {
         return res.data;

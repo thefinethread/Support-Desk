@@ -4,15 +4,17 @@ const Button = ({
   type = 'button',
   className = '',
   disabled = false,
+  onClick,
   props,
 }) => {
   const primary = 'bg-accentDarkShade text-white';
   const secondary = 'border-2 border-accentLightShade text-accentLightShade';
   const disabledStyles =
-    'disabled:bg-gray-500 disabled:scale-100 disabled:cursor-not-allowed ';
+    'disabled:bg-gray-400 disabled:text-white disabled:border-none disabled:scale-100 disabled:cursor-not-allowed ';
 
   return (
     <button
+      onClick={onClick}
       type={type}
       disabled={disabled}
       {...props}

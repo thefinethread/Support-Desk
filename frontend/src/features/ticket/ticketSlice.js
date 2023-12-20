@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  closeTicketThunk,
   createTicketThunk,
   getAllTicketsThunk,
   getTicketThunk,
@@ -22,7 +23,6 @@ const ticketSlice = createSlice({
       state.loading = false;
       state.success = false;
       state.hasError = false;
-      state.ticket = {};
       state.message = '';
     },
   },
@@ -36,7 +36,6 @@ const ticketSlice = createSlice({
         state.success = true;
         state.ticket = action.payload.data;
         state.message = action.payload.message;
-        state.hasError = false;
       })
       .addCase(createTicketThunk.rejected, (state, action) => {
         state.loading = false;
@@ -67,6 +66,21 @@ const ticketSlice = createSlice({
         state.ticket = action.payload.data;
       })
       .addCase(getTicketThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.hasError = true;
+        state.message = action.payload.message;
+      })
+
+      .addCase(closeTicketThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(closeTicketThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.ticket = action.payload.data;
+        state.message = 'Ticket is closed';
+      })
+      .addCase(closeTicketThunk.rejected, (state, action) => {
         state.loading = false;
         state.hasError = true;
         state.message = action.payload.message;

@@ -26,4 +26,12 @@ const getTicket = async (id) => {
   }
 };
 
-export { createTicket, getAllTickets, getTicket };
+const closeTicket = async (id) => {
+  try {
+    return await instance.put(`${TICKET_URL}/${id}`, { status: 'closed' });
+  } catch (error) {
+    console.log(error?.response?.data?.message);
+  }
+};
+
+export { createTicket, getAllTickets, getTicket, closeTicket };

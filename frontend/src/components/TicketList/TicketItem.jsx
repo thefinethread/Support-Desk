@@ -31,7 +31,7 @@ const TicketItem = ({ ...ticket }) => {
           />
           <ExtraInfo
             className="text-gray-400"
-            item={calculateElapsedTime(ticket.createdAt)}
+            item={calculateElapsedTime(ticket.updatedAt)}
           />
           <div className="flex items-center gap-1 font-medium text-gray-500">
             <RiWechatLine size="18px" />
