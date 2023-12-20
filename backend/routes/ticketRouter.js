@@ -4,14 +4,18 @@ import {
   createTicket,
   getAllTickets,
   getTicket,
+  updateTicket,
 } from '../controllers/ticketController.js';
 
-const route = Router();
+const router = Router();
 
-route
+router
   .route('/')
   .post(protectRoute, createTicket)
   .get(protectRoute, getAllTickets);
-route.get('/:id', protectRoute, getTicket);
+router
+  .route('/:id')
+  .get(protectRoute, getTicket)
+  .put(protectRoute, updateTicket);
 
-export default route;
+export default router;

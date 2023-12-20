@@ -73,4 +73,41 @@ const getTicket = asyncHandler(async (req, res) => {
   }
 });
 
-export { createTicket, getAllTickets, getTicket };
+/*
+    Desc: update ticket
+    api: /api/tickets/:id
+    private
+*/
+const updateTicket = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!id) {
+    res.status(400);
+    throw new Error('Missing ticket Id parameter');
+  }
+
+  const statusList = await readJsonData('ticketStatus');
+
+  if (!statusList.map((item) => item.status).includes(status)) {
+    res.status(400);
+    throw new Error('Please select a valid status');
+  }
+
+  const updatedTicket = await Ticket.findByIdAndUpdate(
+    id,
+    { status },
+    { returnOriginal: false }
+  );
+
+  if (updatedTicket) {
+    res
+      .status(200)
+      .json(responseMessage('Ticket updated successfully', updatedTicket));
+  } else {
+    res.status(404);
+    throw new Error('Ticket not found for id: ' + id);
+  }
+});
+
+export { createTicket, getAllTickets, getTicket, updateTicket };
