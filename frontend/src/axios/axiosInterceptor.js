@@ -11,7 +11,6 @@ const axiosInterceptor = (store) => {
       const status = err?.response?.status || null;
       // if unauthorized redirect to login page
       if (status === 401) {
-        console.log(status);
         await store.dispatch(logout());
         await store.dispatch(reset());
         toast.info('Your session has expired. Please login');

@@ -5,7 +5,10 @@ export const calculateElapsedTime = (date) => {
 
   if (seconds < 60 * 60) {
     const minutes = Math.floor(seconds / 60);
-    displayTime = `${minutes} ${makePluralWords(minutes, 'minute')} ago`;
+    displayTime =
+      minutes === 0
+        ? 'just now'
+        : `${minutes} ${makePluralWords(minutes, 'minute')} ago`;
   } else if (seconds < 60 * 60 * 24) {
     const hours = Math.floor(seconds / (60 * 60));
     displayTime = `${hours} ${makePluralWords(hours, 'hour')} ago`;

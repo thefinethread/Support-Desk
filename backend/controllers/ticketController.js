@@ -43,9 +43,34 @@ const createTicket = asyncHandler(async (req, res) => {
     private
 */
 const getAllTickets = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({ userRef: req.user._id });
+  const tickets = await Ticket.find({ userRef: req.user._id }).sort({
+    updatedAt: -1,
+  });
 
   res.status(200).json(responseMessage(null, tickets));
 });
 
-export { createTicket, getAllTickets };
+/*
+    Desc: get a single ticket
+    api: /api/tickets/:id
+    private
+*/
+const getTicket = asyncHandler(async (req, res) => {
+  const { ticketId } = req.params;
+
+  if (!ticketId) {
+    res.status(400);
+    throw new Error('Missing ticket Id parameter');
+  }
+
+  const ticket = await Ticket.findById(ticketId);
+
+  if (ticket) {
+    res.status(200).json(responseMessage(null, ticket));
+  } else {
+    res.status(400);
+    throw new Error('Ticket not found for id: ' + ticketId);
+  }
+});
+
+export { createTicket, getAllTickets, getTicket };
