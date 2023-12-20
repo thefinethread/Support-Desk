@@ -4,7 +4,7 @@ import { getAllTicketsThunk } from '../features/ticket/ticketThunk';
 import Container from '../components/common/Container';
 import Divider from '../components/common/Divider';
 import SubHeader from '../components/common/SubHeader';
-import TicketList from '../components/Ticket/TicketList';
+import TicketList from '../components/TicketList/TicketList';
 import { reset } from '../features/ticket/ticketSlice';
 import { toast } from 'react-toastify';
 import FullPageSpinner from '../components/common/spinner/FullPageSpinner';

@@ -51,11 +51,7 @@ const Navbar = () => {
                   onClick={item.privateNav && handleLogout}
                   key={item.label}
                   {...item}
-                  className={
-                    item.privateNav
-                      ? 'flex-row-reverse bg-accentDarkShade text-white hover:bg-accentLightShade'
-                      : 'hover:bg-gray-100'
-                  }
+                  className={item.privateNav ? 'flex-row-reverse' : ''}
                 />
               ))}
           </ul>
