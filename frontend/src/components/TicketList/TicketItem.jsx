@@ -14,6 +14,13 @@ const ExtraInfo = ({ item, className }) => {
   );
 };
 
+const formatComments = (notesSize) =>
+  notesSize > 1
+    ? `${notesSize} comments`
+    : notesSize === 1
+    ? `${notesSize} comment`
+    : 'no comments';
+
 const TicketItem = ({ ...ticket }) => {
   return (
     <Link to={`/ticket/${ticket._id}`}>
@@ -35,7 +42,9 @@ const TicketItem = ({ ...ticket }) => {
           />
           <div className="flex items-center gap-1 font-medium text-gray-500">
             <RiWechatLine size="18px" />
-            <span className="text-black">5 comments</span>
+            <span className="text-black">
+              {formatComments(ticket?.notes?.length)}
+            </span>
           </div>
         </div>
       </div>

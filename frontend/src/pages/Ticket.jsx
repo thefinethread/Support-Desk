@@ -14,14 +14,23 @@ import { statusColor } from '../constants/statusColor';
 import { defaultProductColors } from '../constants/productColors';
 import { calculateElapsedTime } from '../utils/helperFunctions';
 import Button from '../components/common/Button';
-import { reset } from '../features/ticket/ticketSlice';
+import { reset as ticketReset } from '../features/ticket/ticketSlice';
+import { reset as noteReset } from '../features/note/noteSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../components/common/spinner/Spinner';
+import { getNotes } from '../features/note/noteSlice';
+import Notes from '../components/Ticket/Notes';
 
 const Ticket = () => {
-  const { ticket, loading, hasError, message, success } = useSelector(
-    (state) => state.ticket
-  );
+  const {
+    ticket,
+    loading: ticketLoading,
+    hasError: ticketError,
+    message: ticketMessage,
+    success: ticketSuccess,
+  } = useSelector((state) => state.ticket);
+  const noteState = useSelector((state) => state.note);
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -33,31 +42,34 @@ const Ticket = () => {
   };
 
   useEffect(() => {
-    if (success && message) {
-      toast.success(message);
-      dispatch(reset());
+    if (ticketSuccess && ticketMessage) {
+      toast.success(ticketMessage);
+      dispatch(ticketReset());
       setCloseBtnLoading(false);
     }
-  }, [success, message]);
+  }, [ticketSuccess, ticketMessage]);
 
   useEffect(() => {
     dispatch(getTicketThunk(id));
+    dispatch(getNotes(id));
+    console.log('unmount');
 
     return () => {
-      dispatch(reset());
+      dispatch(ticketReset());
+      dispatch(noteReset());
     };
-  }, []);
+  }, [dispatch, id]);
 
   useEffect(() => {
-    hasError && message && toast.error(message);
-  }, [hasError]);
+    ticketError && ticketMessage && toast.error(ticketMessage);
+  }, [ticketError]);
 
   return (
     <main className="relative flex-1 z-10">
-      {loading && !closeBtnLoading ? (
+      {ticketLoading && !closeBtnLoading ? (
         <FullPageSpinner />
       ) : (
-        <Container className="absolute">
+        <Container className="absolute left-0 right-0">
           <div className=" h-full max-w-md sm:max-w-3xl mx-auto flex flex-col">
             <section>
               <SubHeader className="text-xl">{ticket.description}</SubHeader>
@@ -101,7 +113,9 @@ const Ticket = () => {
                 </div>
               </div>
             </section>
-            <section className="flex-1"></section>
+            <section className="flex-1 flex items-center justify-center">
+              {noteState.loading ? <Spinner /> : <Notes {...noteState} />}
+            </section>
           </div>
         </Container>
       )}
