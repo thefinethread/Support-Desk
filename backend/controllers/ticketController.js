@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import readJsonData from '../utils/readJsonData.js';
 import { Ticket } from '../models/Ticket.js';
 import { responseMessage } from '../utils/responseMessage.js';
+import { Note } from '../models/Note.js';
 
 /*
     Desc: create new ticket
@@ -43,9 +44,21 @@ const createTicket = asyncHandler(async (req, res) => {
     private
 */
 const getAllTickets = asyncHandler(async (req, res) => {
-  const tickets = await Ticket.find({ userRef: req.user._id }).sort({
+  let tickets = [];
+
+  tickets = await Ticket.find({ userRef: req.user._id }).sort({
     updatedAt: -1,
   });
+
+  // attach notes field in the response
+  if (tickets.length !== 0) {
+    const ticketsPromises = tickets.map(async (ticket) => {
+      const notes = await Note.find({ ticketRef: ticket._id });
+      return { ...ticket.toObject(), notes };
+    });
+
+    tickets = await Promise.all(ticketsPromises);
+  }
 
   res.status(200).json(responseMessage(null, tickets));
 });
