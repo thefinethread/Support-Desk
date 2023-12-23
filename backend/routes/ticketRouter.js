@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { protectRoute } from '../middlewares/authMiddleware.js';
+import noteRouter from './noteRouter.js';
 import {
   createTicket,
   getAllTickets,
@@ -8,6 +9,9 @@ import {
 } from '../controllers/ticketController.js';
 
 const router = Router();
+
+// re-route to note router
+router.use('/:ticketId/notes', noteRouter);
 
 router
   .route('/')

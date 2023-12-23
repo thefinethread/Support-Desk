@@ -6,6 +6,7 @@ import { errorHandler } from './middlewares/errorMiddleware.js';
 import userRouter from './routes/userRouter.js';
 import ticketRouter from './routes/ticketRouter.js';
 import referenceDataRouter from './routes/referenceDataRouter.js';
+import noteRouter from './routes/noteRouter.js';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/tickets', ticketRouter);
 app.use('/api/ref', referenceDataRouter);
+app.use('/api/notes', noteRouter);
 
 // config custom error handler
 app.use(errorHandler);
