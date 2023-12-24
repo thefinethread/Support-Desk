@@ -81,9 +81,6 @@ const noteSlice = createSlice({
         state.message = action.payload.message;
       })
 
-      .addCase(createNoteThunk.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(createNoteThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.notes.push(action.payload.data);

@@ -76,9 +76,6 @@ const ticketSlice = createSlice({
         state.message = action.payload.message;
       })
 
-      .addCase(closeTicketThunk.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(closeTicketThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.success.closeTicketSuccess = true;

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { RiCloseLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
-import { createNoteThunk, getNotes } from '../../features/note/noteSlice';
+import { createNoteThunk } from '../../features/note/noteSlice';
 import { reset as noteReset } from '../../features/note/noteSlice';
 import Modal from '../common/modal/Modal';
 import SubHeader from '../common/SubHeader';
@@ -12,8 +12,8 @@ import Spinner from '../common/spinner/Spinner';
 import NoteItem from './NoteItem';
 import { NOTES_ERR_MSG, NO_NOTES_MSG } from '../../constants/constants';
 
-const Notes = ({ modalIsOpen, toggleModal }) => {
-  const { id } = useParams();
+const Notes = ({ isModalOpen, toggleModal }) => {
+  const { ticketId } = useParams();
   const dispatch = useDispatch();
 
   const [noteText, setNoteText] = useState('');
@@ -21,7 +21,6 @@ const Notes = ({ modalIsOpen, toggleModal }) => {
 
   const {
     notes,
-    loading,
     hasError,
     message,
     success: { addNote: addNoteSuccess, getNotes: getNotesSuccess },
@@ -36,23 +35,18 @@ const Notes = ({ modalIsOpen, toggleModal }) => {
       return;
     }
 
-    dispatch(createNoteThunk({ ticketId: id, noteData: { text: noteText } }));
+    await dispatch(createNoteThunk({ ticketId, noteData: { text: noteText } }));
+
+    setAddNoteLoading(false);
   };
 
   useEffect(() => {
-    if (getNotesSuccess) {
-      dispatch(noteReset());
-    }
+    getNotesSuccess && dispatch(noteReset());
   }, [getNotesSuccess]);
-
-  useEffect(() => {
-    dispatch(getNotes(id));
-  }, []);
 
   // effect after note add success
   useEffect(() => {
     if (addNoteSuccess) {
-      setAddNoteLoading(false);
       toast.success(message);
       setNoteText('');
       toggleModal();
@@ -61,11 +55,11 @@ const Notes = ({ modalIsOpen, toggleModal }) => {
       toast.error(message);
       dispatch(noteReset());
     }
-  }, [addNoteSuccess]);
+  }, [addNoteSuccess, hasError]);
 
   return (
     <>
-      <Modal isOpen={modalIsOpen}>
+      <Modal isOpen={isModalOpen}>
         <div className="bg-white p-6 rounded-md relative min-w-[340px] sm:w-[500px]">
           <SubHeader className="text-xl">Add Note</SubHeader>
           <button
@@ -89,11 +83,8 @@ const Notes = ({ modalIsOpen, toggleModal }) => {
           </form>
         </div>
       </Modal>
-
       {/* notes section */}
-      {loading ? (
-        <Spinner />
-      ) : hasError ? (
+      {hasError ? (
         <ErrorMessage msg={NOTES_ERR_MSG} />
       ) : notes.length === 0 ? (
         <ErrorMessage msg={NO_NOTES_MSG} />
