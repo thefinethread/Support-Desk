@@ -11,4 +11,13 @@ const getTicketNotes = async (ticketId) => {
   }
 };
 
-export { getTicketNotes };
+const createNote = async (ticketId, noteData) => {
+  try {
+    return await instance.post(`${API_URL}/${ticketId}/notes`, noteData);
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    console.log(message);
+  }
+};
+
+export { getTicketNotes, createNote };

@@ -9,7 +9,12 @@ import {
 const initialState = {
   tickets: [],
   ticket: {},
-  success: false,
+  success: {
+    getTicketsSuccess: false,
+    closeTicketSuccess: false,
+    createTicketSuccess: false,
+    getTicketSuccess: false,
+  },
   hasError: false,
   loading: false,
   message: '',
@@ -21,7 +26,7 @@ const ticketSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.loading = false;
-      state.success = false;
+      state.success = initialState.success;
       state.hasError = false;
       state.message = '';
     },
@@ -33,7 +38,7 @@ const ticketSlice = createSlice({
       })
       .addCase(createTicketThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
+        state.success.createTicketSuccess = true;
         state.ticket = action.payload.data;
         state.message = action.payload.message;
       })
@@ -48,7 +53,7 @@ const ticketSlice = createSlice({
       })
       .addCase(getAllTicketsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
+        state.success.getTicketsSuccess = true;
         state.tickets = action.payload.data;
       })
       .addCase(getAllTicketsThunk.rejected, (state, action) => {
@@ -62,7 +67,7 @@ const ticketSlice = createSlice({
       })
       .addCase(getTicketThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
+        state.success.getTicketSuccess = true;
         state.ticket = action.payload.data;
       })
       .addCase(getTicketThunk.rejected, (state, action) => {
@@ -76,7 +81,7 @@ const ticketSlice = createSlice({
       })
       .addCase(closeTicketThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
+        state.success.closeTicketSuccess = true;
         state.ticket = action.payload.data;
         state.message = 'Ticket is closed';
       })

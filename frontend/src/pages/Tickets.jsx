@@ -12,18 +12,23 @@ import FullPageSpinner from '../components/common/spinner/FullPageSpinner';
 const Tickets = () => {
   const dispatch = useDispatch();
 
-  const { tickets, loading, hasError, success, message } = useSelector(
-    (state) => state.ticket
-  );
+  const {
+    tickets,
+    loading,
+    hasError,
+    success: { getTicketsSuccess },
+    message,
+  } = useSelector((state) => state.ticket);
 
   useEffect(() => {
     return () => {
-      if (success) {
+      if (getTicketsSuccess) {
         dispatch(reset());
       }
     };
-  }, [success]);
+  }, [getAllTicketsThunk]);
 
+  // fetch all tickets when component mounts
   useEffect(() => {
     dispatch(getAllTicketsThunk());
   }, []);
@@ -32,7 +37,7 @@ const Tickets = () => {
     if (hasError && message) {
       toast.error(message);
     }
-  }, [hasError, message]);
+  }, [hasError]);
 
   return (
     <main className="relative flex-1 z-10">

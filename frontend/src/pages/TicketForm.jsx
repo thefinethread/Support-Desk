@@ -29,7 +29,7 @@ const TicketForm = () => {
 
   const {
     ticket,
-    success: ticketSuccess,
+    success: { createTicketSuccess },
     refDataError: ticketError,
     loading: ticketLoading,
     message: ticketMessage,
@@ -101,15 +101,16 @@ const TicketForm = () => {
   }, [selectedProduct, description]);
 
   useEffect(() => {
-    if (ticketSuccess && ticket) {
+    if (createTicketSuccess) {
       toast.success(ticketMessage);
       sessionStorage.clear();
       dispatch(resetTicket());
       navigate('/tickets');
     } else if (ticketError) {
       toast.error(ticketMessage);
+      dispatch(resetTicket());
     }
-  }, [navigate, ticket, ticketError, ticketMessage, ticketSuccess]);
+  }, [createTicketSuccess, ticketError]);
 
   useEffect(() => {
     if (referenceData && refDataSuccess) {

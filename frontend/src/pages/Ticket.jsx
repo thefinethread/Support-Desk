@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { RiCloseLine } from 'react-icons/ri';
 import SubHeader from '../components/common/SubHeader';
 import {
   closeTicketThunk,
@@ -16,31 +15,26 @@ import { defaultProductColors } from '../constants/productColors';
 import { calculateElapsedTime } from '../utils/helperFunctions';
 import Button from '../components/common/Button';
 import { reset as ticketReset } from '../features/ticket/ticketSlice';
-import { reset as noteReset } from '../features/note/noteSlice';
 import { toast } from 'react-toastify';
 import Spinner from '../components/common/spinner/Spinner';
-import { getNotes } from '../features/note/noteSlice';
-import Notes from '../components/Ticket/Notes';
-import Modal from '../components/common/modal/Modal';
 import useModal from '../hooks/useModal';
+import Notes from '../components/Ticket/Notes';
 
 const Ticket = () => {
-  const {
-    ticket,
-    loading: ticketLoading,
-    hasError: ticketError,
-    message: ticketMessage,
-    success: ticketSuccess,
-  } = useSelector((state) => state.ticket);
-  const noteState = useSelector((state) => state.note);
-
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const [closeBtnLoading, setCloseBtnLoading] = useState(false);
-  const [noteText, setNoteText] = useState('');
 
   const { isOpen, toggleModal } = useModal();
+
+  const {
+    ticket,
+    loading,
+    hasError,
+    message,
+    success: { closeTicketSuccess, getTicketSuccess },
+  } = useSelector((state) => state.ticket);
 
   const handleCloseTicket = () => {
     if (window.confirm('Are you sure want to close ticket?')) {
@@ -51,41 +45,33 @@ const Ticket = () => {
     }
   };
 
-  const handleAddNote = async (e) => {
-    e.preventDefault();
-
-    if (!noteText.trim()) {
-      toast.info('Text field is required');
-      return;
-    }
-  };
-
+  // effect when add ticket success
   useEffect(() => {
-    if (ticketSuccess && ticketMessage) {
-      toast.success(ticketMessage);
-      dispatch(ticketReset());
+    if (closeTicketSuccess) {
       setCloseBtnLoading(false);
+      toast.success(message);
+      dispatch(ticketReset());
     }
-  }, [ticketSuccess, ticketMessage]);
+  }, [closeTicketSuccess]);
+
+  // reset ticket state
+  useEffect(() => {
+    getTicketSuccess && dispatch(ticketReset());
+  }, [getTicketSuccess]);
 
   useEffect(() => {
     dispatch(getTicketThunk(id));
-    dispatch(getNotes(id));
-    console.log('unmount');
 
-    return () => {
-      dispatch(ticketReset());
-      dispatch(noteReset());
-    };
+    return () => dispatch(ticketReset());
   }, [dispatch, id]);
 
   useEffect(() => {
-    ticketError && ticketMessage && toast.error(ticketMessage);
-  }, [ticketError]);
+    hasError && message && toast.error(message);
+  }, [hasError]);
 
   return (
     <main className="relative flex-1 z-10">
-      {ticketLoading && !closeBtnLoading ? (
+      {loading && !closeBtnLoading ? (
         <FullPageSpinner />
       ) : (
         <Container className="absolute left-0 right-0">
@@ -134,33 +120,8 @@ const Ticket = () => {
               </div>
             </section>
 
-            {/* modal for add note */}
-            <Modal isOpen={isOpen}>
-              <div className="bg-white p-6 rounded-md relative min-w-[340px] sm:w-[500px]">
-                <SubHeader className="text-xl">Add Note</SubHeader>
-                <button
-                  onClick={toggleModal}
-                  className="absolute right-2 top-2 text-gray-400 hover:text-black"
-                >
-                  <RiCloseLine size="1.4rem" />
-                </button>
-                <form className="w-full" onSubmit={handleAddNote}>
-                  <textarea
-                    id="description"
-                    placeholder="add note"
-                    value={noteText}
-                    required={true}
-                    onChange={(e) => setNoteText(e.target.value)}
-                    className={`w-full outline-none mb-3 p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
-                  ></textarea>
-                  <Button type="submit">Submit</Button>
-                </form>
-              </div>
-            </Modal>
-
-            {/* notes section */}
             <section className="flex-1 flex items-center justify-center">
-              {noteState.loading ? <Spinner /> : <Notes {...noteState} />}
+              <Notes modalIsOpen={isOpen} toggleModal={toggleModal} />
             </section>
           </div>
         </Container>
