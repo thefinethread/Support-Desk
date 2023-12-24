@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllTicketsThunk } from '../features/ticket/ticketThunk';
 import Container from '../components/common/Container';
-import Divider from '../components/common/Divider';
 import SubHeader from '../components/common/SubHeader';
 import TicketList from '../components/TicketList/TicketList';
 import { reset } from '../features/ticket/ticketSlice';
 import { toast } from 'react-toastify';
 import FullPageSpinner from '../components/common/spinner/FullPageSpinner';
+import ErrorMessage from '../components/common/ErrorMessage';
 
 const Tickets = () => {
   const dispatch = useDispatch();
@@ -49,11 +49,10 @@ const Tickets = () => {
         <Container>
           <div className=" h-full max-w-md sm:max-w-3xl mx-auto ">
             <SubHeader>Your Tickets</SubHeader>
-            <Divider />
-            {tickets ? (
+            {tickets.length !== 0 ? (
               <TicketList ticketList={tickets} />
             ) : (
-              <p>You have not created any tickets.</p>
+              <ErrorMessage msg="You do not have any tickets." />
             )}
           </div>
         </Container>

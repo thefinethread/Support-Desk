@@ -27,3 +27,7 @@ export const calculateElapsedTime = (date) => {
 };
 
 export const makePluralWords = (value, word) => (value > 1 ? word + 's' : word);
+
+export const firstLetterOfName = () => {
+  return JSON.parse(localStorage.getItem('user'))?.name[0]?.toUpperCase();
+};

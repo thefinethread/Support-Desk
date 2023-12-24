@@ -10,6 +10,7 @@ import SubHeader from '../common/SubHeader';
 import Button from '../common/Button';
 import Spinner from '../common/spinner/Spinner';
 import NoteItem from './NoteItem';
+import ErrorMessage from '../common/ErrorMessage';
 import { NOTES_ERR_MSG, NO_NOTES_MSG } from '../../constants/constants';
 
 const Notes = ({ isModalOpen, toggleModal }) => {
@@ -97,10 +98,6 @@ const Notes = ({ isModalOpen, toggleModal }) => {
       )}
     </>
   );
-};
-
-const ErrorMessage = ({ msg }) => {
-  return <p className="text-base font-semibold text-gray-500">{msg}</p>;
 };
 
 export default Notes;
