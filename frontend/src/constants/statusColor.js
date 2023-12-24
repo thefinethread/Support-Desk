@@ -1,5 +1,5 @@
 export const statusColor = {
-  new: 'bg-blue-500',
-  open: 'green',
+  open: 'bg-blue-500',
+  'in progress': 'bg-green-500',
   closed: 'bg-orange-600',
 };

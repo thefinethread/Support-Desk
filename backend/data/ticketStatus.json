@@ -1,13 +1,11 @@
 [
   {
     "id": 1,
-    "status": "new",
-    "code": "N"
+    "status": "open"
   },
   {
     "id": 2,
-    "status": "open",
-    "code": "O"
+    "status": "in progress"
   },
   {
     "id": 3,

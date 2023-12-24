@@ -18,8 +18,8 @@ const ticketSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: ['new', 'open', 'closed'],
-      default: 'new',
+      enum: ['open', 'in progress', 'closed'],
+      default: 'open',
     },
   },
   {

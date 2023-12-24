@@ -26,7 +26,9 @@ const TicketItem = ({ ...ticket }) => {
     <Link to={`/ticket/${ticket._id}`}>
       <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30  transition-colors cursor-pointer">
         <div className="flex flex-wrap gap-2 font-semibold text-gray-700 mb-3">
-          <div className="text-sm">{ticket.description}</div>
+          <div className="text-sm overflow-ellipsis whitespace-nowrap overflow-hidden">
+            {ticket.description}
+          </div>
           <StyledText bgColor={statusColor[ticket.status]}>
             {ticket.status.toUpperCase()}
           </StyledText>
