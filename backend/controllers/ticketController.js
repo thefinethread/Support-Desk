@@ -46,19 +46,24 @@ const createTicket = asyncHandler(async (req, res) => {
 const getAllTickets = asyncHandler(async (req, res) => {
   let tickets = [];
 
-  tickets = await Ticket.find({ userRef: req.user._id }).sort({
-    updatedAt: -1,
-  });
-
-  // attach notes field in the response
-  if (tickets.length !== 0) {
-    const ticketsPromises = tickets.map(async (ticket) => {
-      const notes = await Note.find({ ticketRef: ticket._id });
-      return { ...ticket.toObject(), notes };
-    });
-
-    tickets = await Promise.all(ticketsPromises);
-  }
+  tickets = await Ticket.aggregate([
+    {
+      $match: { userRef: req.user._id },
+    },
+    {
+      $lookup: {
+        from: 'notes',
+        localField: '_id',
+        foreignField: 'ticketRef',
+        as: 'notesCount',
+      },
+    },
+    {
+      $addFields: {
+        notesCount: { $size: '$notesCount' }, // overrides the previous stage notesCount field which contains array of notes and this $size operator return the count of notesCOunt array
+      },
+    },
+  ]).sort({ updatedAt: -1 });
 
   res.status(200).json(responseMessage(null, tickets));
 });
