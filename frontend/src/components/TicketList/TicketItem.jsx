@@ -24,9 +24,9 @@ const formatComments = (notesSize) =>
 const TicketItem = ({ ...ticket }) => {
   return (
     <Link to={`/ticket/${ticket._id}`}>
-      <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30  transition-colors cursor-pointer">
-        <div className="flex flex-wrap gap-2 font-semibold text-gray-700 mb-3">
-          <div className="text-sm overflow-ellipsis whitespace-nowrap overflow-hidden">
+      <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30 dark:hover:bg-gray-400/10  transition-colors cursor-pointer">
+        <div className="flex flex-wrap gap-2 font-semibold text-gray-700 dark:text-gray-300 mb-3">
+          <div className="text-sm overflow-ellipsis whitespace-nowrap overflow-hidden max-w-[80%]">
             {ticket.description}
           </div>
           <StyledText bgColor={statusColor[ticket.status]}>
@@ -44,7 +44,7 @@ const TicketItem = ({ ...ticket }) => {
           />
           <div className="flex items-center gap-1 font-medium text-gray-500">
             <RiWechatLine size="18px" />
-            <span className="text-black">
+            <span className="text-black dark:text-gray-200">
               {formatComments(ticket?.notes?.length)}
             </span>
           </div>

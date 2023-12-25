@@ -56,11 +56,12 @@ const Ticket = ({ toggleModal }) => {
     <section>
       <SubHeader className="text-xl">{ticket.description}</SubHeader>
       <p className="font-medium mb-1">
-        Ticket ID: <span className="text-gray-500">{ticket._id}</span>
+        Ticket ID:{' '}
+        <span className="text-gray-500 dark:text-gray-300">{ticket._id}</span>
       </p>
       <p className="font-medium">
         Created:{' '}
-        <span className="text-gray-500">
+        <span className="text-gray-500 dark:text-gray-300">
           {calculateElapsedTime(ticket.createdAt)}
         </span>
       </p>

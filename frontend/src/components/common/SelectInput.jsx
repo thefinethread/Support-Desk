@@ -17,7 +17,7 @@ const SelectInput = ({
         value={value}
         onChange={onChange}
         required={required}
-        className={`w-full outline-none py-[9px] px-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom disabled:cursor-not-allowed`}
+        className={`w-full outline-none py-[9px] dark:bg-zinc-800 dark:outline-zinc-700 px-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom disabled:cursor-not-allowed`}
       >
         <option value="" disabled>
           {placeholder}

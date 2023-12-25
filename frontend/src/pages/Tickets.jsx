@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllTicketsThunk } from '../features/ticket/ticketThunk';
 import Container from '../components/common/Container';
 import SubHeader from '../components/common/SubHeader';
-import TicketList from '../components/TicketList/TicketList';
+import TicketList from '../features/auth/TicketList';
 import { reset } from '../features/ticket/ticketSlice';
 import { toast } from 'react-toastify';
 import FullPageSpinner from '../components/common/spinner/FullPageSpinner';

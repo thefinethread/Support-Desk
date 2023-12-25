@@ -61,22 +61,23 @@ const Notes = ({ isModalOpen, toggleModal }) => {
   return (
     <>
       <Modal isOpen={isModalOpen}>
-        <div className="bg-white p-6 rounded-md relative min-w-[340px] sm:w-[500px]">
-          <SubHeader className="text-xl">Add Note</SubHeader>
+        <div className="bg-white dark:bg-zinc-900 dark:border dark:border-gray-500 dark:shadow-[0_0_9px_rgba(0,0,0,0.8)] p-6 rounded-md relative min-w-[340px] sm:w-[500px]">
           <button
             onClick={toggleModal}
-            className="absolute right-2 top-2 text-gray-400 hover:text-black"
+            className="absolute right-2 top-2 text-gray-400 hover:text-black dark:hover:text-zinc-50"
           >
             <RiCloseLine size="1.4rem" />
           </button>
-          <form className="w-full" onSubmit={handleAddNote}>
+
+          <SubHeader className="text-xl">Add Note</SubHeader>
+          <form className="w-full my-2" onSubmit={handleAddNote}>
             <textarea
               id="description"
               placeholder="add note"
               value={noteText}
               required={true}
               onChange={(e) => setNoteText(e.target.value)}
-              className={`w-full outline-none mb-3 p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
+              className={`w-full outline-none mb-5 p-2 dark:bg-zinc-800 rounded-md outline-1 outline-gray-300 dark:outline-zinc-700 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom dark:focus:shadow-darkCustom`}
             ></textarea>
             <Button type="submit">
               {addNoteLoading ? <Spinner color="white" size={24} /> : 'Submit'}

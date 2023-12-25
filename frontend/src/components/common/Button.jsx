@@ -7,10 +7,12 @@ const Button = ({
   onClick,
   props,
 }) => {
-  const primary = 'bg-accentDarkShade text-white';
-  const secondary = 'border-2 border-accentLightShade text-accentLightShade';
+  const primary =
+    'bg-accentDarkShade dark:bg-accentDarkMode text-white dark:text-zinc-100';
+  const secondary =
+    'border-2 border-accentLightShade dark:border-accentDarkMode text-accentLightShade dark:text-accentDarkMode';
   const disabledStyles =
-    'disabled:bg-gray-400 disabled:text-white disabled:border-none disabled:scale-100 disabled:cursor-not-allowed ';
+    'disabled:bg-gray-400 dark:disabled:bg-gray-500 disabled:text-white disabled:border-none disabled:scale-100 disabled:cursor-not-allowed ';
 
   return (
     <button

@@ -18,7 +18,7 @@ const NavItem = ({
         }
       >
         <div
-          className={`flex justify-between items-center gap-1 rounded-md py-[10px] px-2 sm:px-4 transition-colors hover:bg-gray-100 hover:text-gray-600 ${className}`}
+          className={`flex justify-between items-center gap-1 rounded-md py-[10px] px-2 sm:px-4 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:text-white dark:hover:bg-zinc-700 ${className}`}
         >
           <Icon size="1.2rem" />
           <span>{label}</span>

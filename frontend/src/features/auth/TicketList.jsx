@@ -1,4 +1,4 @@
-import TicketItem from './TicketItem';
+import TicketItem from '../../components/TicketList/TicketItem';
 
 const TicketList = ({ ticketList }) => {
   return (

@@ -5,8 +5,8 @@ const NoteItem = ({ note }) => {
   return (
     <div className="mb-3 flex gap-3 justify-between">
       <ProfileIcon />
-      <div className="border-[1.3px] flex-1 rounded-md p-4">
-        <div className="mb-2  flex justify-between items-center">
+      <div className="border-[1.3px] dark:border-zinc-700 flex-1 rounded-md p-4">
+        <div className="mb-2 flex justify-between items-center">
           <span className=" text-accentLightShade font-semibold">
             {note.isAdmin ? 'Support Desk' : 'You'}
           </span>
@@ -14,7 +14,9 @@ const NoteItem = ({ note }) => {
             {calculateElapsedTime(note.updatedAt)}{' '}
           </span>
         </div>
-        <p className="font-medium text-gray-600">{note.text}</p>
+        <p className="font-medium text-gray-600 dark:text-zinc-200">
+          {note.text}
+        </p>
       </div>
     </div>
   );

@@ -187,7 +187,7 @@ const TicketForm = () => {
                   value={description}
                   required={true}
                   onChange={handleTextAreaChange}
-                  className={`w-full outline-none p-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom`}
+                  className={`w-full outline-none dark:bg-zinc-800 p-2 rounded-md outline-1 outline-gray-300 dark:outline-zinc-700 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom dark:focus:shadow-darkCustom`}
                 ></textarea>
               </div>
 

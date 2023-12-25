@@ -12,13 +12,16 @@ import PrivateRoute from './components/privateRoute/PrivateRoute';
 import Tickets from './pages/Tickets';
 import axiosInterceptor from './axios/axiosInterceptor';
 import TicketPage from './pages/TicketPage';
+import useDarkMode from './hooks/useDarkMode';
 
 const App = () => {
   // initialize axios interceptor with store
   axiosInterceptor(store);
 
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <div className="min-h-screen flex flex-col text-sm">
+    <div className="min-h-screen flex flex-col text-sm dark:text-zinc-100 bg-white dark:bg-zinc-900 ">
       <BrowserRouter>
         <Provider store={store}>
           <Navbar />
@@ -34,7 +37,7 @@ const App = () => {
           </Routes>
         </Provider>
       </BrowserRouter>
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={2000} theme={isDarkMode && 'dark'} />
     </div>
   );
 };
