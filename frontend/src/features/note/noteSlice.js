@@ -37,7 +37,6 @@ export const createNoteThunk = createAsyncThunk(
     try {
       const res = await createNote(ticketId, noteData);
       if (res.status === 201) {
-        console.log(res);
         return res.data;
       } else {
         const message = 'Something went wrong. Please try later.';

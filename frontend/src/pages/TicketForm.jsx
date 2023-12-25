@@ -28,7 +28,6 @@ const TicketForm = () => {
   } = useSelector((state) => state.referenceData);
 
   const {
-    ticket,
     success: { createTicketSuccess },
     refDataError: ticketError,
     loading: ticketLoading,

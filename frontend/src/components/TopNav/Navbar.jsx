@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useAuthStatus from '../../hooks/useAuthStatus';
 import { menuItems } from '../../constants/menuItems';
-import { toggleTheme } from '../../features/theme/themeSlice';
 import useDarkMode from '../../hooks/useDarkMode';
 
 const Navbar = () => {
