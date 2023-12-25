@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import Container from '../components/common/Container';
-import Input from '../components/common/Input';
-import Button from '../components/common/Button';
-import Spinner from '../components/common/spinner/Spinner';
-import SelectInput from '../components/common/SelectInput';
-import useSelectInput from '../hooks/useSelectInput';
-import { getRef } from '../features/referenceData/referenceDataSlice';
-import { PRODUCTS_REF_TYPE } from '../constants/constants';
-import { reset as resetRefData } from '../features/referenceData/referenceDataSlice';
-import { reset as resetTicket } from '../features/ticket/ticketSlice';
-import { toast } from 'react-toastify';
-import { createTicketThunk } from '../features/ticket/ticketThunk';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Container from "../components/common/Container";
+import Input from "../components/common/Input";
+import Button from "../components/common/Button";
+import Spinner from "../components/common/spinner/Spinner";
+import SelectInput from "../components/common/SelectInput";
+import useSelectInput from "../hooks/useSelectInput";
+import { getRef } from "../features/referenceData/referenceDataSlice";
+import { PRODUCTS_REF_TYPE } from "../constants/constants";
+import { reset as resetRefData } from "../features/referenceData/referenceDataSlice";
+import { reset as resetTicket } from "../features/ticket/ticketSlice";
+import { toast } from "react-toastify";
+import { createTicketThunk } from "../features/ticket/ticketThunk";
 
 const TicketForm = () => {
   const dispatch = useDispatch();
@@ -35,29 +35,29 @@ const TicketForm = () => {
   } = useSelector((state) => state.ticket);
 
   const [description, setDescription] = useState(
-    sessionStorage.getItem('description') || ''
+    sessionStorage.getItem("description") || "",
   );
   const [productOptions, setProductOptions] = useState([]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [hasFieldsError, setHasFieldsError] = useState(true);
   const [product, setProduct] = useState(
-    sessionStorage.getItem('product') || ''
+    sessionStorage.getItem("product") || "",
   );
 
   const textInputs = [
     {
-      id: 'name',
-      label: 'Customer Name',
-      type: 'text',
-      placeholder: '',
+      id: "name",
+      label: "Customer Name",
+      type: "text",
+      placeholder: "",
       required: true,
       value: user.name,
       disabled: true,
     },
     {
-      id: 'email',
-      label: 'Customer Email',
-      type: 'email',
+      id: "email",
+      label: "Customer Email",
+      type: "email",
       required: true,
       value: user.email,
       disabled: true,
@@ -71,7 +71,7 @@ const TicketForm = () => {
     e.preventDefault();
 
     if (!selectedProduct || !description || !user.name || !user.email) {
-      toast.info('Please fill in all the details');
+      toast.info("Please fill in all the details");
       return;
     }
 
@@ -79,18 +79,18 @@ const TicketForm = () => {
       createTicketThunk({
         product: selectedProduct,
         description,
-      })
+      }),
     );
   };
 
   const handleTextAreaChange = (e) => {
     setDescription(e.target.value);
-    sessionStorage.setItem('description', e.target.value);
+    sessionStorage.setItem("description", e.target.value);
   };
 
   useEffect(() => {
     setProduct(selectedProduct);
-    sessionStorage.setItem('product', selectedProduct);
+    sessionStorage.setItem("product", selectedProduct);
   }, [selectedProduct]);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const TicketForm = () => {
       toast.success(ticketMessage);
       sessionStorage.clear();
       dispatch(resetTicket());
-      navigate('/tickets');
+      navigate("/tickets");
     } else if (ticketError) {
       toast.error(ticketMessage);
       dispatch(resetTicket());
@@ -116,7 +116,7 @@ const TicketForm = () => {
       setProductOptions(
         referenceData[PRODUCTS_REF_TYPE]?.map((item) => {
           return { value: item?.code || item?.name, label: item?.name };
-        })
+        }),
       );
     }
 
@@ -134,16 +134,16 @@ const TicketForm = () => {
   }, []);
 
   return (
-    <main className="flex-1 z-10 flex flex-col justify-center">
+    <main className="z-10 flex flex-1 flex-col justify-center">
       <Container>
-        <div className="h-full text-center flex flex-col sm:flex-row justify-between items-center max-w-md sm:max-w-3xl m-auto py-8">
+        <div className="m-auto flex h-full max-w-md flex-col items-center justify-between py-8 text-center sm:max-w-3xl sm:flex-row">
           <header className="mb-10 sm:mb-0">
-            <h1 className="font-bold text-3xl mb-3">Create New Ticket</h1>
-            <h3 className="font-bold text-gray-400 text-2xl">
+            <h1 className="mb-3 text-3xl font-bold">Create New Ticket</h1>
+            <h3 className="text-2xl font-bold text-gray-400">
               Please fill out the form
             </h3>
           </header>
-          <section className="px-6 w-full min-w-[400px] sm:flex-1">
+          <section className="w-full min-w-[400px] px-6 sm:flex-1">
             <form onSubmit={handleSubmit}>
               {textInputs.map((input) => (
                 <div className="mb-3 text-left" key={input.id}>
@@ -164,7 +164,7 @@ const TicketForm = () => {
 
               {/* show spinner while fetching refData */}
               {(refDataLoading || refDataError) && (
-                <div className="w-fit -mt-2 mb-2 text-red-500 text-xs font-semibold">
+                <div className="-mt-2 mb-2 w-fit text-xs font-semibold text-red-500">
                   {refDataLoading ? (
                     <Spinner size={20}>fetching products...</Spinner>
                   ) : (
@@ -176,7 +176,7 @@ const TicketForm = () => {
               <div>
                 <label
                   htmlFor="description"
-                  className="font-semibold text-left block mb-1"
+                  className="mb-1 block text-left font-semibold"
                 >
                   Description of the issue
                 </label>
@@ -186,16 +186,16 @@ const TicketForm = () => {
                   value={description}
                   required={true}
                   onChange={handleTextAreaChange}
-                  className={`w-full outline-none dark:bg-zinc-800 p-2 rounded-md outline-1 outline-gray-300 dark:outline-zinc-700 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom dark:focus:shadow-darkCustom`}
+                  className={`w-full rounded-md p-2 outline-none outline-1 outline-offset-0 outline-gray-300 focus:shadow-custom focus:outline-secondaryLightShade dark:bg-zinc-800 dark:outline-zinc-700 dark:focus:shadow-darkCustom`}
                 ></textarea>
               </div>
 
               <Button
                 type="submit"
-                className={'flex justify-center items-center mt-6'}
+                className={"mt-6 flex items-center justify-center"}
                 disabled={hasFieldsError}
               >
-                {ticketLoading ? <Spinner color="white" size={24} /> : 'Submit'}
+                {ticketLoading ? <Spinner color="white" size={24} /> : "Submit"}
               </Button>
             </form>
           </section>

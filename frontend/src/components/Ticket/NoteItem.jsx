@@ -1,17 +1,17 @@
-import { calculateElapsedTime } from '../../utils/helperFunctions';
-import ProfileIcon from '../common/ProfileIcon';
+import { calculateElapsedTime } from "../../utils/helperFunctions";
+import ProfileIcon from "../common/ProfileIcon";
 
 const NoteItem = ({ note }) => {
   return (
-    <div className="mb-3 flex gap-3 justify-between">
+    <div className="mb-3 flex justify-between gap-3">
       <ProfileIcon />
-      <div className="border-[1.3px] dark:border-zinc-700 flex-1 rounded-md p-4">
-        <div className="mb-2 flex justify-between items-center">
-          <span className=" text-accentLightShade font-semibold">
-            {note.isAdmin ? 'Support Desk' : 'You'}
+      <div className="flex-1 rounded-md border-[1.3px] p-4 dark:border-zinc-700">
+        <div className="mb-2 flex items-center justify-between">
+          <span className=" font-semibold text-accentLightShade">
+            {note.isAdmin ? "Support Desk" : "You"}
           </span>
           <span className="text-xs font-medium text-gray-400">
-            {calculateElapsedTime(note.updatedAt)}{' '}
+            {calculateElapsedTime(note.updatedAt)}{" "}
           </span>
         </div>
         <p className="font-medium text-gray-600 dark:text-zinc-200">

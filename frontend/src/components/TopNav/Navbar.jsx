@@ -1,19 +1,19 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RiMoonFill, RiSunFill } from 'react-icons/ri';
-import { logout } from '../../features/auth/authThunk';
-import NavItem from './NavItem';
-import Container from '../common/Container';
-import { reset } from '../../features/auth/authSlice';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import useAuthStatus from '../../hooks/useAuthStatus';
-import { menuItems } from '../../constants/menuItems';
-import useDarkMode from '../../hooks/useDarkMode';
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { logout } from "../../features/auth/authThunk";
+import NavItem from "./NavItem";
+import Container from "../common/Container";
+import { reset } from "../../features/auth/authSlice";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import useAuthStatus from "../../hooks/useAuthStatus";
+import { menuItems } from "../../constants/menuItems";
+import useDarkMode from "../../hooks/useDarkMode";
 
 const Navbar = () => {
   const { user, hasError, message, success } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
 
   const { isDarkMode, toggleMode } = useDarkMode();
@@ -31,7 +31,7 @@ const Navbar = () => {
     }
 
     if (!loggedIn && success) {
-      navigate('/');
+      navigate("/");
       dispatch(reset());
     }
   }, [loggedIn, user, hasError, success, navigate, message, dispatch]);
@@ -39,13 +39,13 @@ const Navbar = () => {
   return (
     <header>
       <Container>
-        <nav className="flex justify-between items-center h-16 border-b-2 dark:border-b-zinc-700 font-medium">
+        <nav className="flex h-16 items-center justify-between border-b-2 font-medium dark:border-b-zinc-700">
           <div>
             <Link to="/">
-              <h1 className="font-bold text-xl">Support Desk</h1>
+              <h1 className="text-xl font-bold">Support Desk</h1>
             </Link>
           </div>
-          <ul className="flex justify-between items-center gap-1">
+          <ul className="flex items-center justify-between gap-1">
             <button onClick={toggleMode}>
               {isDarkMode ? (
                 <RiSunFill size="1rem" />
@@ -55,14 +55,14 @@ const Navbar = () => {
             </button>
             {menuItems
               .filter((item) =>
-                loggedIn ? item.privateNav === true : item.privateNav === false
+                loggedIn ? item.privateNav === true : item.privateNav === false,
               )
               .map((item) => (
                 <NavItem
                   onClick={item.privateNav && handleLogout}
                   key={item.label}
                   {...item}
-                  className={item.privateNav ? 'flex-row-reverse' : ''}
+                  className={item.privateNav ? "flex-row-reverse" : ""}
                 />
               ))}
           </ul>

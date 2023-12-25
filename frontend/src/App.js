@@ -1,18 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Navbar from './components/TopNav/Navbar';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import store from './store/store';
-import TicketForm from './pages/TicketForm';
-import PrivateRoute from './components/privateRoute/PrivateRoute';
-import Tickets from './pages/Tickets';
-import axiosInterceptor from './axios/axiosInterceptor';
-import TicketPage from './pages/TicketPage';
-import useDarkMode from './hooks/useDarkMode';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Navbar from "./components/TopNav/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import store from "./store/store";
+import TicketForm from "./pages/TicketForm";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import Tickets from "./pages/Tickets";
+import axiosInterceptor from "./axios/axiosInterceptor";
+import TicketPage from "./pages/TicketPage";
+import useDarkMode from "./hooks/useDarkMode";
 
 const App = () => {
   // initialize axios interceptor with store
@@ -21,7 +21,7 @@ const App = () => {
   const { isDarkMode } = useDarkMode();
 
   return (
-    <div className="min-h-screen flex flex-col text-sm dark:text-zinc-100 bg-white dark:bg-zinc-900 ">
+    <div className="flex min-h-screen flex-col bg-white text-sm dark:bg-zinc-900 dark:text-zinc-100 ">
       <BrowserRouter>
         <Provider store={store}>
           <Navbar />
@@ -37,7 +37,7 @@ const App = () => {
           </Routes>
         </Provider>
       </BrowserRouter>
-      <ToastContainer autoClose={2000} theme={isDarkMode && 'dark'} />
+      <ToastContainer autoClose={2000} theme={isDarkMode && "dark"} />
     </div>
   );
 };

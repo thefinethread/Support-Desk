@@ -1,6 +1,6 @@
-import instance from '../../axios/axiosInstance';
+import instance from "../../axios/axiosInstance";
 
-const TICKET_URL = '/api/tickets';
+const TICKET_URL = "/api/tickets";
 
 const createTicket = async (ticket) => {
   try {
@@ -28,7 +28,7 @@ const getTicket = async (id) => {
 
 const closeTicket = async (id) => {
   try {
-    return await instance.put(`${TICKET_URL}/${id}`, { status: 'closed' });
+    return await instance.put(`${TICKET_URL}/${id}`, { status: "closed" });
   } catch (error) {
     console.log(error?.response?.data?.message);
   }

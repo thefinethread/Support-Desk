@@ -1,6 +1,6 @@
-import instance from '../../axios/axiosInstance';
+import instance from "../../axios/axiosInstance";
 
-const API_URL = '/api/tickets';
+const API_URL = "/api/tickets";
 
 const getTicketNotes = async (ticketId) => {
   try {

@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
-import Container from '../components/common/Container';
-import Button from '../components/common/Button';
+import { Link } from "react-router-dom";
+import Container from "../components/common/Container";
+import Button from "../components/common/Button";
 
 const Home = () => {
   return (
-    <main className="flex-1 z-10 flex flex-col justify-center text-[15px]">
+    <main className="z-10 flex flex-1 flex-col justify-center text-[15px]">
       <Container>
-        <div className="h-full text-center max-w-lg m-auto py-8">
+        <div className="m-auto h-full max-w-lg py-8 text-center">
           <header className="mb-10">
-            <h1 className="flex justify-center items-center font-bold gap-2 text-3xl mb-4">
+            <h1 className="mb-4 flex items-center justify-center gap-2 text-3xl font-bold">
               What do you need help with?
             </h1>
-            <h3 className="font-bold text-gray-400 text-2xl">
+            <h3 className="text-2xl font-bold text-gray-400">
               Please choose from an option below
             </h3>
           </header>

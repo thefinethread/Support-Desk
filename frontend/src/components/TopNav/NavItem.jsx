@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const NavItem = ({
   path,
@@ -6,7 +6,7 @@ const NavItem = ({
   icon: Icon,
   label,
   onClick,
-  className = '',
+  className = "",
 }) => {
   return (
     <li className="text-gray-400">
@@ -14,11 +14,11 @@ const NavItem = ({
         onClick={onClick}
         to={path}
         className={({ isActive }) =>
-          isActive && !privateNav ? 'text-accentLightShade ' : ''
+          isActive && !privateNav ? "text-accentLightShade " : ""
         }
       >
         <div
-          className={`flex justify-between items-center gap-1 rounded-md py-[10px] px-2 sm:px-4 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:text-white dark:hover:bg-zinc-700 ${className}`}
+          className={`flex items-center justify-between gap-1 rounded-md px-2 py-[10px] transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-zinc-700 dark:hover:text-white sm:px-4 ${className}`}
         >
           <Icon size="1.2rem" />
           <span>{label}</span>

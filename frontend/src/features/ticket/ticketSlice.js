@@ -1,10 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
   closeTicketThunk,
   createTicketThunk,
   getAllTicketsThunk,
   getTicketThunk,
-} from './ticketThunk';
+} from "./ticketThunk";
 
 const initialState = {
   tickets: [],
@@ -17,18 +17,18 @@ const initialState = {
   },
   hasError: false,
   loading: false,
-  message: '',
+  message: "",
 };
 
 const ticketSlice = createSlice({
-  name: 'ticket',
+  name: "ticket",
   initialState,
   reducers: {
     reset: (state) => {
       state.loading = false;
       state.success = initialState.success;
       state.hasError = false;
-      state.message = '';
+      state.message = "";
     },
   },
   extraReducers: (builder) => {
@@ -80,7 +80,7 @@ const ticketSlice = createSlice({
         state.loading = false;
         state.success.closeTicketSuccess = true;
         state.ticket = action.payload.data;
-        state.message = 'Ticket is closed';
+        state.message = "Ticket is closed";
       })
       .addCase(closeTicketThunk.rejected, (state, action) => {
         state.loading = false;

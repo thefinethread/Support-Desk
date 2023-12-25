@@ -1,13 +1,13 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   closeTicket,
   createTicket,
   getAllTickets,
   getTicket,
-} from './ticketService';
+} from "./ticketService";
 
 export const createTicketThunk = createAsyncThunk(
-  'ticket/create',
+  "ticket/create",
   async (ticketData, thunkAPI) => {
     try {
       const res = await createTicket(ticketData);
@@ -15,7 +15,7 @@ export const createTicketThunk = createAsyncThunk(
       if (res.status === 201) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -23,11 +23,11 @@ export const createTicketThunk = createAsyncThunk(
         error?.response?.data?.message || error?.message || error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const getAllTicketsThunk = createAsyncThunk(
-  'ticket/getAll',
+  "ticket/getAll",
   async (_, thunkAPI) => {
     try {
       const res = await getAllTickets();
@@ -35,7 +35,7 @@ export const getAllTicketsThunk = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -43,11 +43,11 @@ export const getAllTicketsThunk = createAsyncThunk(
         error?.response?.data?.message || error?.message || error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const getTicketThunk = createAsyncThunk(
-  'ticket/getTicket',
+  "ticket/getTicket",
   async (id, thunkAPI) => {
     try {
       const res = await getTicket(id);
@@ -55,7 +55,7 @@ export const getTicketThunk = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -63,11 +63,11 @@ export const getTicketThunk = createAsyncThunk(
         error?.response?.data?.message || error?.message || error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const closeTicketThunk = createAsyncThunk(
-  'ticket/close',
+  "ticket/close",
   async (id, thunkAPI) => {
     try {
       const res = await closeTicket(id);
@@ -75,7 +75,7 @@ export const closeTicketThunk = createAsyncThunk(
       if (res.status === 200) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -83,5 +83,5 @@ export const closeTicketThunk = createAsyncThunk(
         error?.response?.data?.message || error?.message || error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );

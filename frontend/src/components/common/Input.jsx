@@ -5,13 +5,13 @@ const Input = ({
   required = true,
   value,
   label,
-  className = '',
+  className = "",
   onChange,
   ...props
 }) => {
   return (
     <>
-      <label htmlFor={id} className="font-semibold block mb-1">
+      <label htmlFor={id} className="mb-1 block font-semibold">
         {label}
       </label>
       <input
@@ -21,7 +21,7 @@ const Input = ({
         required={required}
         type={type}
         placeholder={placeholder}
-        className={`w-full outline-none py-2 pl-2 dark:bg-zinc-800 rounded-md outline-1 outline-gray-300 dark:outline-zinc-700 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom dark:focus:shadow-darkCustom disabled:cursor-not-allowed ${className}`}
+        className={`w-full rounded-md py-2 pl-2 outline-none outline-1 outline-offset-0 outline-gray-300 focus:shadow-custom focus:outline-secondaryLightShade disabled:cursor-not-allowed dark:bg-zinc-800 dark:outline-zinc-700 dark:focus:shadow-darkCustom ${className}`}
         {...props}
       />
     </>

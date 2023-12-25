@@ -1,23 +1,23 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createNote, getTicketNotes } from './noteService';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createNote, getTicketNotes } from "./noteService";
 
 const initialState = {
   notes: [],
   loading: false,
   hasError: false,
   success: { getNotes: false, addNote: false },
-  message: '',
+  message: "",
 };
 
 export const getNotes = createAsyncThunk(
-  'note/getAll',
+  "note/getAll",
   async (ticketId, thunkAPI) => {
     try {
       const res = await getTicketNotes(ticketId);
       if (res.status === 200) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -28,18 +28,18 @@ export const getNotes = createAsyncThunk(
         error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const createNoteThunk = createAsyncThunk(
-  'note/create',
+  "note/create",
   async ({ ticketId, noteData }, thunkAPI) => {
     try {
       const res = await createNote(ticketId, noteData);
       if (res.status === 201) {
         return res.data;
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -50,18 +50,18 @@ export const createNoteThunk = createAsyncThunk(
         error?.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 const noteSlice = createSlice({
-  name: 'note',
+  name: "note",
   initialState,
   reducers: {
     reset: (state) => {
       state.loading = false;
       state.hasError = false;
       state.success = initialState.success;
-      state.message = '';
+      state.message = "";
     },
   },
   extraReducers: (builder) => {
@@ -84,7 +84,7 @@ const noteSlice = createSlice({
         state.loading = false;
         state.notes.push(action.payload.data);
         state.success.addNote = true;
-        state.message = 'your note has been added';
+        state.message = "your note has been added";
       })
       .addCase(createNoteThunk.rejected, (state, action) => {
         state.loading = false;

@@ -9,7 +9,7 @@ const SelectInput = ({
 }) => {
   return (
     <div className="mb-3 text-left">
-      <label htmlFor={id} className="font-semibold block mb-1">
+      <label htmlFor={id} className="mb-1 block font-semibold">
         {label}
       </label>
       <select
@@ -17,7 +17,7 @@ const SelectInput = ({
         value={value}
         onChange={onChange}
         required={required}
-        className={`w-full outline-none py-[9px] dark:bg-zinc-800 dark:outline-zinc-700 px-2 rounded-md outline-1 outline-gray-300 outline-offset-0 focus:outline-secondaryLightShade focus:shadow-custom disabled:cursor-not-allowed`}
+        className={`w-full rounded-md px-2 py-[9px] outline-none outline-1 outline-offset-0 outline-gray-300 focus:shadow-custom focus:outline-secondaryLightShade disabled:cursor-not-allowed dark:bg-zinc-800 dark:outline-zinc-700`}
       >
         <option value="" disabled>
           {placeholder}

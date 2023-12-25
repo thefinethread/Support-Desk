@@ -1,7 +1,7 @@
-import instance from './axiosInstance';
-import { logout } from '../features/auth/authThunk';
-import { toast } from 'react-toastify';
-import { reset } from '../features/auth/authSlice';
+import instance from "./axiosInstance";
+import { logout } from "../features/auth/authThunk";
+import { toast } from "react-toastify";
+import { reset } from "../features/auth/authSlice";
 
 // flag used when multiple api calls at once
 let isSessionAlreadyExpired = true;
@@ -17,10 +17,10 @@ const axiosInterceptor = (store) => {
         isSessionAlreadyExpired = false;
         await store.dispatch(logout());
         await store.dispatch(reset());
-        toast.info('Your session has expired. Please login');
+        toast.info("Your session has expired. Please login");
       }
       return Promise.reject(err);
-    }
+    },
   );
 };
 

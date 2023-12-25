@@ -1,6 +1,6 @@
-import instance from '../../axios/axiosInstance';
+import instance from "../../axios/axiosInstance";
 
-const REF_URL = '/api/ref';
+const REF_URL = "/api/ref";
 
 const getRefService = async (type) => {
   try {

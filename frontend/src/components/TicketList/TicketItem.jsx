@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { RiCircleFill, RiWechatLine } from 'react-icons/ri';
-import { statusColor } from '../../constants/statusColor';
-import { calculateElapsedTime } from '../../utils/helperFunctions';
-import { defaultProductColors } from '../../constants/productColors';
-import StyledText from '../common/StyledText';
+import { Link } from "react-router-dom";
+import { RiCircleFill, RiWechatLine } from "react-icons/ri";
+import { statusColor } from "../../constants/statusColor";
+import { calculateElapsedTime } from "../../utils/helperFunctions";
+import { defaultProductColors } from "../../constants/productColors";
+import StyledText from "../common/StyledText";
 
 const ExtraInfo = ({ item, className }) => {
   return (
@@ -18,15 +18,15 @@ const formatComments = (notesSize) =>
   notesSize > 1
     ? `${notesSize} comments`
     : notesSize === 1
-    ? `${notesSize} comment`
-    : 'no comments';
+      ? `${notesSize} comment`
+      : "no comments";
 
 const TicketItem = ({ ...ticket }) => {
   return (
     <Link to={`/ticket/${ticket._id}`}>
-      <div className="border-b border-gray-400/40 py-4 px-5 hover:bg-gray-400/30 dark:hover:bg-gray-400/10  transition-colors cursor-pointer">
-        <div className="flex flex-wrap gap-2 font-semibold text-gray-700 dark:text-gray-300 mb-3">
-          <div className="text-sm overflow-ellipsis whitespace-nowrap overflow-hidden max-w-[80%]">
+      <div className="cursor-pointer border-b border-gray-400/40 px-5 py-4 transition-colors  hover:bg-gray-400/30 dark:hover:bg-gray-400/10">
+        <div className="mb-3 flex flex-wrap gap-2 font-semibold text-gray-700 dark:text-gray-300">
+          <div className="max-w-[80%] overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
             {ticket.description}
           </div>
           <StyledText bgColor={statusColor[ticket.status]}>
@@ -35,7 +35,7 @@ const TicketItem = ({ ...ticket }) => {
         </div>
         <div className="flex gap-4 text-xs">
           <ExtraInfo
-            className={defaultProductColors[ticket.product] || 'text-gray-500'}
+            className={defaultProductColors[ticket.product] || "text-gray-500"}
             item={ticket.product}
           />
           <ExtraInfo

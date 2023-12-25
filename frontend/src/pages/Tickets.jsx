@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllTicketsThunk } from '../features/ticket/ticketThunk';
-import Container from '../components/common/Container';
-import SubHeader from '../components/common/SubHeader';
-import TicketList from '../features/auth/TicketList';
-import { reset } from '../features/ticket/ticketSlice';
-import { toast } from 'react-toastify';
-import FullPageSpinner from '../components/common/spinner/FullPageSpinner';
-import ErrorMessage from '../components/common/ErrorMessage';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTicketsThunk } from "../features/ticket/ticketThunk";
+import Container from "../components/common/Container";
+import SubHeader from "../components/common/SubHeader";
+import TicketList from "../features/auth/TicketList";
+import { reset } from "../features/ticket/ticketSlice";
+import { toast } from "react-toastify";
+import FullPageSpinner from "../components/common/spinner/FullPageSpinner";
+import ErrorMessage from "../components/common/ErrorMessage";
 
 const Tickets = () => {
   const dispatch = useDispatch();
@@ -40,14 +40,14 @@ const Tickets = () => {
   }, [hasError]);
 
   return (
-    <main className="relative flex-1 z-10">
+    <main className="relative z-10 flex-1">
       {loading ? (
         <FullPageSpinner size={50} className="flex-col">
           Loading, Please wait...
         </FullPageSpinner>
       ) : (
         <Container>
-          <div className=" h-full max-w-md sm:max-w-3xl mx-auto ">
+          <div className=" mx-auto h-full max-w-md sm:max-w-3xl ">
             <SubHeader>Your Tickets</SubHeader>
             {tickets.length !== 0 ? (
               <TicketList ticketList={tickets} />

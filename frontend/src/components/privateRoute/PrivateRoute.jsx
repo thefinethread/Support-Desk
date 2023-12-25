@@ -1,5 +1,5 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import useAuthStatus from '../../hooks/useAuthStatus';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import useAuthStatus from "../../hooks/useAuthStatus";
 
 const PrivateRoute = () => {
   const location = useLocation();

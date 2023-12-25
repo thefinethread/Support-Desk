@@ -1,6 +1,6 @@
-import instance from '../../axios/axiosInstance';
+import instance from "../../axios/axiosInstance";
 
-const API_URL = '/api/users';
+const API_URL = "/api/users";
 
 const registerUser = async (user) => {
   return await instance.post(`${API_URL}/register`, user);

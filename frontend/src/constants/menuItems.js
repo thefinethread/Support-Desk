@@ -1,16 +1,16 @@
-import { RiLogoutBoxRLine, RiUserAddLine } from 'react-icons/ri';
+import { RiLogoutBoxRLine, RiUserAddLine } from "react-icons/ri";
 
 export const menuItems = [
   {
-    label: 'Login',
+    label: "Login",
     icon: RiUserAddLine,
-    path: '/login',
+    path: "/login",
     privateNav: false,
   },
   {
-    label: 'Logout',
+    label: "Logout",
     icon: RiLogoutBoxRLine,
-    path: '',
+    path: "",
     privateNav: true,
   },
 ];

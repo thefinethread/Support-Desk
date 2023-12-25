@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getRefService } from './referenceDataService';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getRefService } from "./referenceDataService";
 
 const initialState = {
   referenceData: {},
@@ -9,14 +9,14 @@ const initialState = {
 };
 
 export const getRef = createAsyncThunk(
-  'referenceData/getRef',
+  "referenceData/getRef",
   async (type, thunkAPI) => {
     const res = await getRefService(type);
     try {
       if (res.status === 200) {
         return { type, data: res.data };
       } else {
-        const message = 'Something went wrong. Please try later.';
+        const message = "Something went wrong. Please try later.";
         return thunkAPI.rejectWithValue(message);
       }
     } catch (error) {
@@ -24,11 +24,11 @@ export const getRef = createAsyncThunk(
         error?.response?.data?.message || error?.message || error.toString();
       return thunkAPI.rejectWithValue(message);
     }
-  }
+  },
 );
 
 const referenceDataSlice = createSlice({
-  name: 'referenceData',
+  name: "referenceData",
   initialState,
   reducers: {
     reset: (state) => {

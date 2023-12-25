@@ -1,22 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { register, login, logout } from './authThunk';
+import { createSlice } from "@reduxjs/toolkit";
+import { register, login, logout } from "./authThunk";
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
   loading: false,
   hasError: false,
   success: false,
   error: null,
-  message: '',
+  message: "",
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     reset: (state) => {
       state.loading = false;
-      state.message = '';
+      state.message = "";
       state.success = false;
       state.error = null;
       state.hasError = false;
