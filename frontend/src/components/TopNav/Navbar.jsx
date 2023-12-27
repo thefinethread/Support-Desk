@@ -16,7 +16,9 @@ const Navbar = () => {
     (state) => state.auth,
   );
 
-  const { isDarkMode, toggleMode } = useDarkMode();
+  // const { darkTheme } = useSelector((state) => state.theme);
+
+  const { darkTheme, toggleThemeMode } = useDarkMode();
 
   const { loggedIn } = useAuthStatus();
 
@@ -46,8 +48,8 @@ const Navbar = () => {
             </Link>
           </div>
           <ul className="flex items-center justify-between gap-1">
-            <button onClick={toggleMode}>
-              {isDarkMode ? (
+            <button onClick={toggleThemeMode}>
+              {darkTheme ? (
                 <RiSunFill size="1rem" />
               ) : (
                 <RiMoonFill size="1rem" />

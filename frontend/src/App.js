@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -18,26 +17,24 @@ const App = () => {
   // initialize axios interceptor with store
   axiosInterceptor(store);
 
-  const { isDarkMode } = useDarkMode();
+  const { darkTheme } = useDarkMode();
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-sm dark:bg-zinc-900 dark:text-zinc-100 ">
       <BrowserRouter>
-        <Provider store={store}>
-          <Navbar />
-          <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/*" element={<PrivateRoute />}>
-              <Route path="new-ticket" element={<TicketForm />} />
-              <Route path="tickets" element={<Tickets />} />
-              <Route path="ticket/:ticketId" element={<TicketPage />} />
-            </Route>
-          </Routes>
-        </Provider>
+        <Navbar />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/*" element={<PrivateRoute />}>
+            <Route path="new-ticket" element={<TicketForm />} />
+            <Route path="tickets" element={<Tickets />} />
+            <Route path="ticket/:ticketId" element={<TicketPage />} />
+          </Route>
+        </Routes>
+        <ToastContainer autoClose={2000} theme={darkTheme ? "dark" : "light"} />
       </BrowserRouter>
-      <ToastContainer autoClose={2000} theme={isDarkMode && "dark"} />
     </div>
   );
 };

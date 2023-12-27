@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { reset } from "../features/auth/authSlice";
 
 // flag used when multiple api calls at once
-let isSessionAlreadyExpired = true;
+let isSessionAlreadyExpired = !!localStorage.getItem("user");
 
 const axiosInterceptor = (store) => {
   // intercept the response

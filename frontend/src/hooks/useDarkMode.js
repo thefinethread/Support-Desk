@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../features/theme/themeSlice";
 
 const html = document.documentElement;
 
 const useDarkMode = () => {
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("darkTheme") || false,
-  );
+  const { darkTheme } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    isDarkMode && html.classList.add("dark");
-  }, []);
+    localStorage.setItem("darkTheme", darkTheme);
+    darkTheme ? html.classList.add("dark") : html.classList.remove("dark");
+  }, [darkTheme]);
 
-  const toggleMode = () => {
-    localStorage.setItem("darkTheme", !isDarkMode);
-    html.classList.toggle("dark");
-    setIsDarkMode((prev) => !prev);
-  };
+  const toggleThemeMode = () => dispatch(toggleTheme());
 
-  return { isDarkMode, toggleMode };
+  return { darkTheme, toggleThemeMode };
 };
 
 export default useDarkMode;
