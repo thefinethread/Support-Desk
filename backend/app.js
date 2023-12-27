@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { REQ_LIMIT_SIZE } from './constants.js';
@@ -28,6 +29,18 @@ app.use('/api/users', userRouter);
 app.use('/api/tickets', ticketRouter);
 app.use('/api/ref', referenceDataRouter);
 app.use('/api/notes', noteRouter);
+
+// in es module type, have to use like this
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+  // serve build folder as static
+  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(__dirname, 'frontend', 'build', 'index.html')
+  );
+}
 
 // config custom error handler
 app.use(errorHandler);

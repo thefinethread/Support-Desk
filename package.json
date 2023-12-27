@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "build": "npm i && npm i --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Kartikey Shukla",
   "license": "MIT",
