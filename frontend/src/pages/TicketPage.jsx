@@ -35,7 +35,7 @@ const TicketPage = () => {
       {ticketLoading ? (
         <FullPageSpinner />
       ) : (
-        <Container className="absolute left-0 right-0">
+        <Container>
           <div className=" mx-auto flex h-full max-w-md flex-col sm:max-w-3xl">
             <Ticket toggleModal={toggleModal} />
             {noteLoading ? (

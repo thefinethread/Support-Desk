@@ -45,7 +45,7 @@ const TicketItem = ({ ...ticket }) => {
           <div className="flex items-center gap-1 font-medium text-gray-500">
             <RiWechatLine size="18px" />
             <span className="text-black dark:text-gray-200">
-              {formatComments(ticket?.notes?.length)}
+              {formatComments(ticket?.notesCount)}
             </span>
           </div>
         </div>

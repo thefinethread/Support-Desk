@@ -12,7 +12,7 @@ const Button = ({
   const secondary =
     "border-2 border-accentLightShade dark:border-accentDarkMode text-accentLightShade dark:text-accentDarkMode";
   const disabledStyles =
-    "disabled:bg-gray-400 dark:disabled:bg-gray-500 disabled:text-white disabled:border-none disabled:scale-100 disabled:cursor-not-allowed ";
+    "disabled:bg-gray-400 dark:disabled:bg-gray-500 dark:disabled:text-white disabled:text-white disabled:border-none disabled:scale-100 disabled:cursor-not-allowed ";
 
   return (
     <button
